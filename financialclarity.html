@@ -1784,10 +1784,13 @@
             </div>
             <div class="slider-row">
               <div class="slider-meta">
-                <span class="slider-label">Hardware — 25% margin (auto)</span>
+                <span class="slider-label">Hardware — 25% margin <span style="color:var(--accent);font-size:10px;font-weight:600;">AUTO</span></span>
                 <span class="slider-readout" id="mix-c-val">25%</span>
               </div>
-              <input type="range" id="mix-c" disabled style="opacity:0.3;">
+              <div style="position:relative;height:6px;background:var(--bg-alt);border-radius:3px;margin:4px 0;">
+                <div id="mix-c-bar" style="position:absolute;left:0;top:0;height:100%;width:25%;background:var(--accent);border-radius:3px;transition:width 0.15s;"></div>
+              </div>
+              <div style="font-size:10px;color:var(--text-muted);margin-top:1px;">Auto-adjusts so Software + Services + Hardware = 100%</div>
             </div>
             <div class="slider-row">
               <div class="slider-meta">
@@ -2392,25 +2395,58 @@
               <div class="slider-meta"><span class="slider-label">Revenue change</span><span class="slider-readout" id="fv-chg-val">+20%</span></div>
               <input type="range" min="-60" max="60" step="5" value="20" id="fv-chg" oninput="calcFCVC()">
             </div>
+            <div class="slider-row">
+              <div class="slider-meta"><span class="slider-label">Your Gross Margin %</span><span class="slider-readout" id="fv-gm-val">50%</span></div>
+              <input type="range" min="5" max="95" step="1" value="50" id="fv-gm" oninput="calcFCVC()">
+            </div>
+            <div class="slider-row">
+              <div class="slider-meta"><span class="slider-label">Total Cost Budget ($K)</span><span class="slider-readout" id="fv-budget-val">$150K</span></div>
+              <input type="range" min="10" max="600" step="10" value="150" id="fv-budget" oninput="calcFCVC()">
+            </div>
+            <div class="slider-row" style="grid-column:1/-1;">
+              <div class="slider-meta">
+                <span class="slider-label">Cost mix — Fixed → Variable</span>
+                <span class="slider-readout" id="fv-mix-val">FC <span id="fv-mix-fc-pct">80</span>% · VC <span id="fv-mix-vc-pct">20</span>%</span>
+              </div>
+              <input type="range" min="5" max="95" step="5" value="80" id="fv-mix" oninput="calcFCVC()" style="width:100%;">
+              <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-top:2px;pointer-events:none;">
+                <span>← All Fixed (high leverage)</span><span>All Variable (low risk) →</span>
+              </div>
+            </div>
           </div>
 
           <!-- TAB: BREAKEVEN -->
           <div id="fvtab-be">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
-              <div style="background:var(--bad-bg);border:1px solid #F09595;border-radius:var(--radius);padding:12px 14px;">
-                <div style="font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--bad);margin-bottom:6px;">HIGH FIXED COST · FC=$300K · VC=20%</div>
-                <div style="font-size:13px;color:var(--text-secondary);margin-bottom:6px;">Gross margin = 80%</div>
-                <div style="font-size:14px;font-weight:600;">Breakeven: <span style="color:var(--bad)" id="fv-be-fc">—</span></div>
-                <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" id="fv-prof-fc">—</div>
+              <div style="background:var(--bad-bg);border:1px solid #F09595;border-radius:var(--radius);padding:14px 16px;">
+                <div style="font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--bad);margin-bottom:6px;">YOUR MIX · FC <span id="fv-card-fc-pct">80</span>% · VC <span id="fv-card-vc-pct">20</span>%</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">Fixed: <span id="fv-card-fc-amt">$120K</span> locked · Variable: <span id="fv-card-vc-amt">$30K</span> flexes</div>
+                <div>
+                  <div style="font-size:11px;color:var(--text-muted);">Breakeven revenue</div>
+                  <div style="font-size:24px;font-weight:700;color:var(--bad);" id="fv-be-your-fc-hi">—</div>
+                </div>
+                <div style="margin-top:8px;">
+                  <div style="font-size:11px;color:var(--text-muted);">Profit at <span class="fv-rev-label">$500K</span> revenue</div>
+                  <div style="font-size:15px;font-weight:600;" id="fv-prof-your-fc-hi">—</div>
+                </div>
               </div>
-              <div style="background:var(--good-bg);border:1px solid #5DCAA5;border-radius:var(--radius);padding:12px 14px;">
-                <div style="font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--good);margin-bottom:6px;">HIGH VARIABLE COST · FC=$50K · VC=70%</div>
-                <div style="font-size:13px;color:var(--text-secondary);margin-bottom:6px;">Gross margin = 30%</div>
-                <div style="font-size:14px;font-weight:600;">Breakeven: <span style="color:var(--good)" id="fv-be-vc">—</span></div>
-                <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" id="fv-prof-vc">—</div>
+              <div style="background:var(--good-bg);border:1px solid #5DCAA5;border-radius:var(--radius);padding:14px 16px;">
+                <div style="font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--good);margin-bottom:6px;">FLIPPED MIX · FC <span id="fv-card-fc-pct2">20</span>% · VC <span id="fv-card-vc-pct2">80</span>%</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">Fixed: <span id="fv-card-fc-amt2">$30K</span> locked · Variable: <span id="fv-card-vc-amt2">$120K</span> flexes</div>
+                <div>
+                  <div style="font-size:11px;color:var(--text-muted);">Breakeven revenue</div>
+                  <div style="font-size:24px;font-weight:700;color:var(--good);" id="fv-be-your-vc-hi">—</div>
+                </div>
+                <div style="margin-top:8px;">
+                  <div style="font-size:11px;color:var(--text-muted);">Profit at <span class="fv-rev-label">$500K</span> revenue</div>
+                  <div style="font-size:15px;font-weight:600;" id="fv-prof-your-vc-hi">—</div>
+                </div>
               </div>
             </div>
-            <div style="position:relative;height:200px;"><canvas id="fv-chart-be" role="img" aria-label="Breakeven and profit comparison bar chart"></canvas></div>
+            <div style="background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--radius);padding:10px 14px;margin-bottom:1rem;font-size:12px;color:var(--text-secondary);">
+              <b>How the slider works:</b> Both sides share the same GM% and total cost budget. Moving the slider shifts how much of that budget is <b>fixed</b> (locked regardless of revenue) vs <b>variable</b> (only paid when you sell). Lower fixed costs = lower breakeven but less profit leverage on the upside.
+            </div>
+            <div style="position:relative;height:220px;"><canvas id="fv-chart-be" role="img" aria-label="Breakeven and profit comparison bar chart"></canvas></div>
           </div>
 
           <!-- TAB: VOLATILITY -->
@@ -2969,7 +3005,7 @@
 
 <footer style="border-top:1px solid var(--border);text-align:center;padding:1.5rem;font-size:12px;color:var(--text-muted);">
   <a href="#" onclick="showIndex();return false;" style="color:#C9A84C;text-decoration:none;margin-right:1rem;">← Back to all tools</a>
-  Financial Clarity framework by Neil Shnider CPA MBA CVA
+  Financial Clarity framework by Neil Shnider CPA MBA CVA — SBDC at FGCU
 </footer>
 
 <script>
@@ -3199,6 +3235,8 @@ function calcMix(changed) {
   document.getElementById('mix-a-val').textContent = Math.round(a) + '%';
   document.getElementById('mix-b-val').textContent = Math.round(b) + '%';
   document.getElementById('mix-c-val').textContent = Math.round(c) + '%';
+  const mixBar = document.getElementById('mix-c-bar');
+  if (mixBar) mixBar.style.width = Math.round(c) + '%';
   document.getElementById('mix-rev-val').textContent = '$' + rev + 'M';
   const blended = (a * 0.75 + b * 0.50 + c * 0.25) / 100;
   const gp = rev * blended;
@@ -3935,33 +3973,81 @@ function fcvcTab(id, btn) {
 }
 
 function calcFCVC() {
-  const rev  = +document.getElementById('fv-rev').value;
-  const chg  = +document.getElementById('fv-chg').value;
-  document.getElementById('fv-rev-val').textContent = fmtK(rev);
-  document.getElementById('fv-chg-val').textContent = (chg>=0?'+':'')+chg+'%';
+  const rev    = +document.getElementById('fv-rev').value;
+  const chg    = +document.getElementById('fv-chg').value;
+  const gmPct  = +document.getElementById('fv-gm').value;
+  const budget = +document.getElementById('fv-budget').value;
+  const mixPct = +document.getElementById('fv-mix').value;   // % that is FIXED
+  const gmUser = gmPct / 100;
+
+  // Current mix
+  const fcAmt  = budget * mixPct / 100;        // fixed portion
+  const vcAmt  = budget * (1 - mixPct / 100);  // variable portion (cost, not % of rev)
+
+  // Flipped mix
+  const fcAmtFlip = budget * (1 - mixPct / 100);
+  const vcAmtFlip = budget * mixPct / 100;
+
+  // Breakeven = fixed costs ÷ GM%  (variable costs already "baked in" to GM)
+  const beYour  = gmUser > 0 ? fcAmt     / gmUser : 0;
+  const beFlip  = gmUser > 0 ? fcAmtFlip / gmUser : 0;
+  const profYour = rev * gmUser - fcAmt;
+  const profFlip = rev * gmUser - fcAmtFlip;
+
+  const flipFcPct = Math.round(100 - mixPct);
+  const flipVcPct = Math.round(mixPct);
+
+  const fmtP = (p) => (p >= 0 ? 'Profit ' : 'Loss ') + fmtK(Math.abs(p));
+  const colP  = (p) => p >= 0 ? 'var(--good)' : 'var(--bad)';
+  const setEl = (id, txt, col) => { const e = document.getElementById(id); if(e){e.textContent=txt; if(col!==undefined) e.style.color=col;} };
+
+  // Slider readouts
+  setEl('fv-rev-val',    fmtK(rev));
+  setEl('fv-chg-val',    (chg>=0?'+':'')+chg+'%');
+  setEl('fv-gm-val',     gmPct+'%');
+  setEl('fv-budget-val', fmtK(budget));
+  setEl('fv-mix-fc-pct', Math.round(mixPct));
+  setEl('fv-mix-vc-pct', Math.round(100-mixPct));
+
+  // Revenue label in cards
+  document.querySelectorAll('.fv-rev-label').forEach(el => el.textContent = fmtK(rev));
+
+  // Cards — YOUR MIX
+  setEl('fv-card-fc-pct',  Math.round(mixPct));
+  setEl('fv-card-vc-pct',  Math.round(100-mixPct));
+  setEl('fv-card-fc-amt',  fmtK(fcAmt));
+  setEl('fv-card-vc-amt',  fmtK(vcAmt));
+  setEl('fv-be-your-fc-hi', fmtK(beYour));
+  setEl('fv-prof-your-fc-hi', fmtP(profYour), colP(profYour));
+
+  // Cards — FLIPPED MIX
+  setEl('fv-card-fc-pct2',  flipFcPct);
+  setEl('fv-card-vc-pct2',  flipVcPct);
+  setEl('fv-card-fc-amt2',  fmtK(fcAmtFlip));
+  setEl('fv-card-vc-amt2',  fmtK(vcAmtFlip));
+  setEl('fv-be-your-vc-hi', fmtK(beFlip));
+  setEl('fv-prof-your-vc-hi', fmtP(profFlip), colP(profFlip));
 
   const r2   = rev*(1+chg/100);
-  const beFC = FV_FC_FC/FV_GM_FC;
-  const beVC = FV_FC_VC/FV_GM_VC;
-  const profFC  = rev*FV_GM_FC - FV_FC_FC;
-  const profVC  = rev*FV_GM_VC - FV_FC_VC;
+  const beFCeg = FV_FC_FC/FV_GM_FC;
+  const beVCeg = FV_FC_VC/FV_GM_VC;
+  const profFCeg  = rev*FV_GM_FC - FV_FC_FC;
+  const profVCeg  = rev*FV_GM_VC - FV_FC_VC;
   const profFC2 = r2*FV_GM_FC  - FV_FC_FC;
   const profVC2 = r2*FV_GM_VC  - FV_FC_VC;
-  const levFC   = profFC  > 0 ? (rev*FV_GM_FC)/profFC  : null;
-  const levVC   = profVC  > 0 ? (rev*FV_GM_VC)/profVC  : null;
+  const levFC   = profFCeg  > 0 ? (rev*FV_GM_FC)/profFCeg  : null;
+  const levVC   = profVCeg  > 0 ? (rev*FV_GM_VC)/profVCeg  : null;
 
   const fmtProfit = (p) => (p>=0?'Profit ':'Loss ')+fmtK(Math.abs(p));
   const profColor = (p) => p>=0 ? 'var(--good)' : 'var(--bad)';
 
-  // BE tab
-  document.getElementById('fv-be-fc').textContent = fmtK(beFC);
-  document.getElementById('fv-be-vc').textContent = fmtK(beVC);
+  // BE tab — old elements removed from HTML; skip safely
+  const _beFCel = document.getElementById('fv-be-fc'); if(_beFCel) _beFCel.textContent = fmtK(beFCeg);
+  const _beVCel = document.getElementById('fv-be-vc'); if(_beVCel) _beVCel.textContent = fmtK(beVCeg);
   const pfcEl = document.getElementById('fv-prof-fc');
-  pfcEl.textContent = 'At current revenue: '+fmtProfit(profFC);
-  pfcEl.style.color = profColor(profFC);
+  if(pfcEl){pfcEl.textContent='At current revenue: '+fmtProfit(profFCeg);pfcEl.style.color=profColor(profFCeg);}
   const pvcEl = document.getElementById('fv-prof-vc');
-  pvcEl.textContent = 'At current revenue: '+fmtProfit(profVC);
-  pvcEl.style.color = profColor(profVC);
+  if(pvcEl){pvcEl.textContent='At current revenue: '+fmtProfit(profVCeg);pvcEl.style.color=profColor(profVCeg);}
 
   // VOL tab
   const sign = chg>=0?'+':'';
@@ -3969,14 +4055,14 @@ function calcFCVC() {
   ['fv-chg-pct1','fv-chg-pct2'].forEach(id=>document.getElementById(id).textContent=Math.abs(chg));
   document.getElementById('fv-lev-fc').textContent = levFC ? fmt(levFC,1)+'×' : 'n/a';
   document.getElementById('fv-lev-vc').textContent = levVC ? fmt(levVC,1)+'×' : 'n/a';
-  if(profFC !== 0) {
-    const fcChgPct = (profFC2-profFC)/Math.abs(profFC)*100;
+  if(profFCeg !== 0) {
+    const fcChgPct = (profFC2-profFCeg)/Math.abs(profFCeg)*100;
     const volFCEl = document.getElementById('fv-vol-fc');
     volFCEl.textContent = (fcChgPct>=0?'+':'')+fmt(fcChgPct,0)+'%';
     volFCEl.style.color = (fcChgPct*chg)>=0?'var(--good)':'var(--bad)';
   }
-  if(profVC !== 0) {
-    const vcChgPct = (profVC2-profVC)/Math.abs(profVC)*100;
+  if(profVCeg !== 0) {
+    const vcChgPct = (profVC2-profVCeg)/Math.abs(profVCeg)*100;
     const volVCEl = document.getElementById('fv-vol-vc');
     volVCEl.textContent = (vcChgPct>=0?'+':'')+fmt(vcChgPct,0)+'%';
     volVCEl.style.color = (vcChgPct*chg)>=0?'var(--good)':'var(--bad)';
@@ -4000,11 +4086,11 @@ function calcFCVC() {
   // DEC tab
   document.getElementById('fv-dec-be').textContent = fmtK(50/FV_GM_FC);
 
-  // Charts
-  buildFVCharts(rev, chg, profFC, profVC, profFC2, profVC2, beFC, beVC, rFC40, rVC40);
+  // Charts — use user's numbers for BE chart, legacy constants for others
+  buildFVCharts(rev, chg, profFCeg, profVCeg, profFC2, profVC2, beFCeg, beVCeg, rFC40, rVC40, beYour, beFlip, profYour, profFlip);
 }
 
-function buildFVCharts(rev, chg, profFC, profVC, profFC2, profVC2, beFC, beVC, rFC40, rVC40) {
+function buildFVCharts(rev, chg, profFCeg, profVCeg, profFC2, profVC2, beFCeg, beVCeg, rFC40, rVC40, beFC, beVC, profFC, profVC) {
   const baseOpts = () => ({
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
@@ -4014,23 +4100,40 @@ function buildFVCharts(rev, chg, profFC, profVC, profFC2, profVC2, beFC, beVC, r
     }
   });
 
-  function mkChart(id, type, data, opts) {
+  function mkChart(id, type, data, opts, extraPlugins) {
     if(fvCharts[id]) { fvCharts[id].destroy(); delete fvCharts[id]; }
     const cvs = document.getElementById(id);
-    if(cvs) fvCharts[id] = new Chart(cvs, { type, data, options: opts });
+    if(cvs) fvCharts[id] = new Chart(cvs, { type, data, options: opts, plugins: extraPlugins||[] });
   }
 
-  // BE chart
+  // BE chart — user's numbers with bar labels
+  const beLabelPlugin = {
+    id:'beLabels',
+    afterDatasetsDraw(chart) {
+      const {ctx, data, scales:{x,y}} = chart;
+      ctx.save();
+      ctx.font = '600 10px Inter, sans-serif';
+      ctx.fillStyle = '#6B8299';
+      ctx.textAlign = 'center';
+      data.datasets[0].data.forEach((val,i) => {
+        if(!val) return;
+        const xPos = x.getPixelForValue(i);
+        const yPos = y.getPixelForValue(val) - 5;
+        ctx.fillText(fmtK(val), xPos, yPos);
+      });
+      ctx.restore();
+    }
+  };
   mkChart('fv-chart-be','bar',{
-    labels:['FC breakeven','VC breakeven','Revenue','FC profit','VC profit'],
+    labels:['Your mix breakeven','Flipped mix breakeven','Revenue','Your mix profit','Flipped mix profit'],
     datasets:[{ data:[Math.round(beFC),Math.round(beVC),rev,Math.max(0,Math.round(profFC)),Math.max(0,Math.round(profVC))],
       backgroundColor:['#F09595','#5DCAA5','#A8C8E8','#C8102E','#0F6E56'], borderRadius:4, borderSkipped:false }]
-  }, {...baseOpts(), plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtK(c.raw)}}}});
+  }, {...baseOpts(), plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtK(c.raw)}}}}, [beLabelPlugin]);
 
   // VOL chart
   mkChart('fv-chart-vol','bar',{
     labels:['FC base','FC after chg','VC base','VC after chg'],
-    datasets:[{ data:[Math.round(profFC),Math.round(profFC2),Math.round(profVC),Math.round(profVC2)],
+    datasets:[{ data:[Math.round(profFCeg),Math.round(profFC2),Math.round(profVCeg),Math.round(profVC2)],
       backgroundColor:['#F09595','#C8102E','#5DCAA5','#0F6E56'], borderRadius:4, borderSkipped:false }]
   }, {...baseOpts(), plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtK(c.raw)}}}});
 
