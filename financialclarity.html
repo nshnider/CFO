@@ -778,6 +778,7 @@
   height: calc(100vh - 64px);
   overflow-y: auto;
   border-right: 3px solid #C9A84C;
+  z-index: 10;
 }
 .levers-sidebar-title {
   font-size: 10px;
@@ -853,6 +854,7 @@
   height: calc(100vh - 64px);
   position: sticky;
   top: 64px;
+  z-index: 1;
 }
 
 /* Right photo sidebar removed */
@@ -904,6 +906,13 @@
       <div class="idx-divider"></div>
       <p class="idx-contact"><a href="mailto:nshnider@theshnidergroup.com">nshnider@theshnidergroup.com</a></p>
       <p class="idx-contact"><a href="tel:6145820108">614-582-0108</a></p>
+      <div style="margin-top:20px;">
+        <button onclick="openTool('ind-service')" style="display:inline-flex;align-items:center;gap:9px;padding:10px 20px;background:rgba(201,168,76,0.12);border:1.5px solid rgba(201,168,76,0.6);border-radius:6px;color:#C9A84C;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;letter-spacing:0.3px;transition:all .2s;" onmouseover="this.style.background='rgba(201,168,76,0.22)';this.style.borderColor='#C9A84C'" onmouseout="this.style.background='rgba(201,168,76,0.12)';this.style.borderColor='rgba(201,168,76,0.6)'">
+          <span style="font-size:15px;">📊</span>
+          View Industry Benchmarks &amp; Metrics →
+        </button>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:7px;padding-left:2px;">Core · Service · Manufacturing · Construction · Retail</div>
+      </div>
     </div>
     <div class="idx-stats">
       <div class="idx-stat"><div class="idx-stat-num">12</div><div class="idx-stat-lbl">Financial models</div></div>
@@ -1557,6 +1566,28 @@
     <span class="lever-btn-icon">🚀</span>
     <span class="lever-btn-label">Growth Cash Intensity</span>
   </button>
+
+  <div style="font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(201,168,76,0.8);padding:16px 20px 10px;border-top:1px solid rgba(255,255,255,0.15);margin-top:8px;">Industry KPIs</div>
+  <button class="lever-btn" onclick="showPanel('ind-service', this)" data-label="Service Business" id="btn-ind-service">
+    <div class="lever-check">✓</div>
+    <span class="lever-btn-icon">💼</span>
+    <span class="lever-btn-label">Service Business</span>
+  </button>
+  <button class="lever-btn" onclick="showPanel('ind-manufacturing', this)" data-label="Manufacturing" id="btn-ind-manufacturing">
+    <div class="lever-check">✓</div>
+    <span class="lever-btn-icon">🏭</span>
+    <span class="lever-btn-label">Manufacturing</span>
+  </button>
+  <button class="lever-btn" onclick="showPanel('ind-construction', this)" data-label="Construction" id="btn-ind-construction">
+    <div class="lever-check">✓</div>
+    <span class="lever-btn-icon">🏗️</span>
+    <span class="lever-btn-label">Construction</span>
+  </button>
+  <button class="lever-btn" onclick="showPanel('ind-retail', this)" data-label="Retail / Distribution" id="btn-ind-retail">
+    <div class="lever-check">✓</div>
+    <span class="lever-btn-icon">🛒</span>
+    <span class="lever-btn-label">Retail / Distribution</span>
+  </button>
   </aside>
 
   <!-- CENTER: tool content -->
@@ -1609,6 +1640,7 @@
                 <span class="slider-label">Days inventory outstanding (DIO)</span>
                 <span class="slider-readout" id="dio-val">45 days</span>
               </div>
+              <div style="font-size:11px;color:var(--text-muted);text-align:right;margin-top:2px;" id="dio-dollar"></div>
               <input type="range" min="5" max="120" step="1" value="45" id="dio" oninput="calcCCC()">
               <div class="cash-impact" id="dio-impact"></div>
             </div>
@@ -1617,6 +1649,7 @@
                 <span class="slider-label">Days sales outstanding (DSO)</span>
                 <span class="slider-readout" id="dso-val">30 days</span>
               </div>
+              <div style="font-size:11px;color:var(--text-muted);text-align:right;margin-top:2px;" id="dso-dollar"></div>
               <input type="range" min="1" max="90" step="1" value="30" id="dso" oninput="calcCCC()">
               <div class="cash-impact" id="dso-impact"></div>
             </div>
@@ -1625,6 +1658,7 @@
                 <span class="slider-label">Days payable outstanding (DPO)</span>
                 <span class="slider-readout" id="dpo-val">35 days</span>
               </div>
+              <div style="font-size:11px;color:var(--text-muted);text-align:right;margin-top:2px;" id="dpo-dollar"></div>
               <input type="range" min="1" max="90" step="1" value="35" id="dpo" oninput="calcCCC()">
               <div class="cash-impact" id="dpo-impact"></div>
             </div>
@@ -2996,7 +3030,300 @@
     </div>
   </div>
 
-</div>
+
+
+  <!-- SERVICE -->
+  <div id="panel-ind-service" class="panel">
+    <div style="margin-bottom:1.25rem;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;">Industry KPI Dashboard</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--text-primary);">Service Business</div>
+      <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Professional services, consulting, agencies, staffing, B2B service firms.</div>
+    </div>
+    <div class="panel-grid">
+      <div><div class="card">
+        <div class="card-title">Move sliders — cards and charts update live</div>
+        <div class="metrics-row" style="grid-template-columns:repeat(3,1fr)">
+          <div class="metric"><div class="metric-label">Gross Margin</div><div class="metric-val" id="svc-d-gm">—</div></div>
+          <div class="metric"><div class="metric-label">Utilization</div><div class="metric-val" id="svc-d-util">—</div></div>
+          <div class="metric"><div class="metric-label">Net Margin</div><div class="metric-val" id="svc-d-nm">—</div></div>
+        </div>
+        <!-- Revenue lever -->
+        <div style="display:flex;align-items:center;gap:12px;margin:1rem 0;padding:12px 14px;background:var(--surface-2);border-radius:var(--radius);">
+          <span style="font-size:13px;color:var(--text-secondary);white-space:nowrap;">Annual revenue ($M) — for dollar impact</span>
+          <input type="number" id="svc-rev" value="5" min="0.1" max="10000" step="0.1" oninput="calcInd('svc')" style="width:90px;padding:5px 8px;font-size:14px;font-weight:500;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text-primary);text-align:right;">
+          <span style="font-size:13px;color:var(--text-muted);">M</span>
+        </div>
+        <!-- DSO dollar box -->
+        <div id="svc-dso-box" style="border-radius:var(--radius-lg);padding:14px 18px;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:16px;border:1.5px solid var(--border);background:var(--surface-2);">
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Receivables tied up (DSO)</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:-0.02em;line-height:1;" id="svc-dso-dollar">—</div>
+          </div>
+          <div style="font-size:12px;color:var(--text-secondary);max-width:180px;line-height:1.5;" id="svc-dso-sub"></div>
+        </div>
+        <hr class="divider">
+        <div class="sliders-section">
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Gross margin %</span><span class="slider-readout" id="svc-l-gm">40%</span></div><input type="range" min="10" max="90" step="1" value="40" id="svc-s-gm" oninput="calcInd('svc')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Billable utilization rate %</span><span class="slider-readout" id="svc-l-util">70%</span></div><input type="range" min="20" max="100" step="1" value="70" id="svc-s-util" oninput="calcInd('svc')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Revenue per employee ($K)</span><span class="slider-readout" id="svc-l-rpe">$150K</span></div><input type="range" min="50" max="600" step="10" value="150" id="svc-s-rpe" oninput="calcInd('svc')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Net margin %</span><span class="slider-readout" id="svc-l-nm">12%</span></div><input type="range" min="1" max="50" step="1" value="12" id="svc-s-nm" oninput="calcInd('svc')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Client retention rate %</span><span class="slider-readout" id="svc-l-ret">85%</span></div><input type="range" min="40" max="100" step="1" value="85" id="svc-s-ret" oninput="calcInd('svc')"></div>
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">DSO — days to collect A/R</span><span class="slider-readout" id="svc-l-dso">35 days</span></div>
+            <input type="range" min="5" max="120" step="1" value="35" id="svc-s-dso" oninput="calcInd('svc')">
+            <div class="cash-impact" id="svc-dso-impact"></div>
+          </div>
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">DPO — days to pay suppliers</span><span class="slider-readout" id="svc-l-dpo">20 days</span></div>
+            <input type="range" min="5" max="90" step="1" value="20" id="svc-s-dpo" oninput="calcInd('svc')">
+            <div class="cash-impact" id="svc-dpo-impact"></div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="insight" id="svc-insight">Adjust sliders to see your benchmark position.</div>
+        <div style="margin-top:1.5rem;"><div class="card-title">Your metrics vs benchmarks</div><div id="svc-bars" style="margin-top:10px;display:flex;flex-direction:column;gap:10px;"></div></div>
+      </div></div>
+      <div class="sidebar">
+        <div class="panel-desc"><h2>Service Business KPIs</h2><p>Service firms sell time and expertise. Utilization (how much capacity bills), gross margin, and client retention are the core levers. DSO directly determines how much cash is floating in unpaid invoices.</p></div>
+        <div class="formula-card"><div class="formula-label">Key relationships</div><div class="formula" style="font-size:14px;line-height:1.8;">Effective rate = Revenue ÷ Billable hrs<br>A/R tied up = Revenue × (DSO ÷ 365)<br>Client LTV = Avg revenue ÷ (1 − Retention)</div></div>
+        <div class="tips-card"><div class="formula-label">RMA / IBIS Benchmarks</div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Gross margin:</strong> 35–55%; 50%+ strong</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Utilization:</strong> 65–75% healthy; below 60% red flag</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Revenue/employee:</strong> $100–250K typical; $300K+ excellent</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Net margin:</strong> 10–20% strong</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Retention:</strong> 85%+ target; below 75% crisis</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>DSO:</strong> Under 45 days; over 60 = A/R risk</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>DPO:</strong> 20–30 days typical for service firms</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MANUFACTURING -->
+  <div id="panel-ind-manufacturing" class="panel">
+    <div style="margin-bottom:1.25rem;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;">Industry KPI Dashboard</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--text-primary);">Manufacturing</div>
+      <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Discrete and process manufacturers, fabricators, industrial producers.</div>
+    </div>
+    <div class="panel-grid">
+      <div><div class="card">
+        <div class="card-title">Move sliders — cards and charts update live</div>
+        <div class="metrics-row" style="grid-template-columns:repeat(3,1fr)">
+          <div class="metric"><div class="metric-label">Gross Margin</div><div class="metric-val" id="mfg-d-gm">—</div></div>
+          <div class="metric"><div class="metric-label">Inventory Turns</div><div class="metric-val" id="mfg-d-inv">—</div></div>
+          <div class="metric"><div class="metric-label">OEE %</div><div class="metric-val" id="mfg-d-oee">—</div></div>
+        </div>
+        <!-- Revenue lever -->
+        <div style="display:flex;align-items:center;gap:12px;margin:1rem 0;padding:12px 14px;background:var(--surface-2);border-radius:var(--radius);">
+          <span style="font-size:13px;color:var(--text-secondary);white-space:nowrap;">Annual revenue ($M) — for dollar impact</span>
+          <input type="number" id="mfg-rev" value="10" min="0.1" max="10000" step="0.1" oninput="calcInd('mfg')" style="width:90px;padding:5px 8px;font-size:14px;font-weight:500;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text-primary);text-align:right;">
+          <span style="font-size:13px;color:var(--text-muted);">M</span>
+        </div>
+        <!-- CCC summary box -->
+        <div id="mfg-ccc-box" style="border-radius:var(--radius-lg);padding:14px 18px;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:16px;border:1.5px solid var(--border);background:var(--surface-2);">
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Cash Conversion Cycle</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:-0.02em;line-height:1;" id="mfg-ccc-days">—</div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Working Capital Tied Up</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:-0.02em;line-height:1;" id="mfg-ccc-dollar">—</div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="sliders-section">
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Gross margin %</span><span class="slider-readout" id="mfg-l-gm">28%</span></div><input type="range" min="5" max="70" step="1" value="28" id="mfg-s-gm" oninput="calcInd('mfg')"></div>
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">Inventory turns (×/year)</span><span class="slider-readout" id="mfg-l-inv">6×</span></div>
+            <input type="range" min="1" max="30" step="0.5" value="6" id="mfg-s-inv" oninput="calcInd('mfg')">
+            <div class="cash-impact" id="mfg-dio-impact"></div>
+          </div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">OEE — Overall Equipment Effectiveness %</span><span class="slider-readout" id="mfg-l-oee">72%</span></div><input type="range" min="20" max="100" step="1" value="72" id="mfg-s-oee" oninput="calcInd('mfg')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">EBITDA margin %</span><span class="slider-readout" id="mfg-l-ebitda">10%</span></div><input type="range" min="1" max="40" step="1" value="10" id="mfg-s-ebitda" oninput="calcInd('mfg')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">On-time delivery rate %</span><span class="slider-readout" id="mfg-l-otd">88%</span></div><input type="range" min="40" max="100" step="1" value="88" id="mfg-s-otd" oninput="calcInd('mfg')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Scrap / defect rate %</span><span class="slider-readout" id="mfg-l-scrap">3%</span></div><input type="range" min="0" max="20" step="0.5" value="3" id="mfg-s-scrap" oninput="calcInd('mfg')"></div>
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">DSO — days to collect A/R</span><span class="slider-readout" id="mfg-l-dso">35 days</span></div>
+            <input type="range" min="5" max="90" step="1" value="35" id="mfg-s-dso" oninput="calcInd('mfg')">
+            <div class="cash-impact" id="mfg-dso-impact"></div>
+          </div>
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">DPO — days to pay suppliers</span><span class="slider-readout" id="mfg-l-dpo">30 days</span></div>
+            <input type="range" min="5" max="90" step="1" value="30" id="mfg-s-dpo" oninput="calcInd('mfg')">
+            <div class="cash-impact" id="mfg-dpo-impact"></div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="insight" id="mfg-insight">Adjust sliders to see your benchmark position.</div>
+        <div style="margin-top:1.5rem;"><div class="card-title">Your metrics vs benchmarks</div><div id="mfg-bars" style="margin-top:10px;display:flex;flex-direction:column;gap:10px;"></div></div>
+      </div></div>
+      <div class="sidebar">
+        <div class="panel-desc"><h2>Manufacturing KPIs</h2><p>OEE and inventory turns are the fastest paths to margin improvement. Every extra day of inventory or receivables is cash your business can't deploy elsewhere.</p></div>
+        <div class="formula-card"><div class="formula-label">Key relationships</div><div class="formula" style="font-size:14px;line-height:1.8;">OEE = Availability × Performance × Quality<br>DIO = 365 ÷ Inventory turns<br>CCC = DIO + DSO − DPO<br>WC tied up = Revenue × (CCC ÷ 365)</div></div>
+        <div class="tips-card"><div class="formula-label">RMA / NIST Benchmarks</div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Gross margin:</strong> 20–35%; 35%+ strong</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Inventory turns:</strong> 4–8×; 10×+ lean/excellent</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>DIO:</strong> 46–91 days (4–8× turns); under 37 days excellent</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>DSO:</strong> 30–45 days typical; under 30 strong</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>DPO:</strong> 30–45 days; higher = more supplier float</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>OEE:</strong> 85% world-class; 60–75% typical</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>EBITDA margin:</strong> 8–14% healthy; 15%+ excellent</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>On-time delivery:</strong> 95%+ target</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Scrap rate:</strong> Under 2%; 5%+ = process problem</span></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end panel-ind-manufacturing -->
+  <!-- CONSTRUCTION -->
+  <div id="panel-ind-construction" class="panel">
+    <div style="margin-bottom:1.25rem;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;">Industry KPI Dashboard</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--text-primary);">Construction</div>
+      <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">General contractors, subcontractors, homebuilders, specialty trades.</div>
+    </div>
+    <div class="panel-grid">
+      <div><div class="card">
+        <div class="card-title">Move sliders — cards and charts update live</div>
+        <div class="metrics-row" style="grid-template-columns:repeat(3,1fr)">
+          <div class="metric"><div class="metric-label">Gross Margin</div><div class="metric-val" id="con-d-gm">—</div></div>
+          <div class="metric"><div class="metric-label">Net Margin (GM − OH)</div><div class="metric-val" id="con-d-nm">—</div></div>
+          <div class="metric"><div class="metric-label">Backlog (months)</div><div class="metric-val" id="con-d-bl">—</div></div>
+        </div>
+        <!-- Revenue lever -->
+        <div style="display:flex;align-items:center;gap:12px;margin:1rem 0;padding:12px 14px;background:var(--surface-2);border-radius:var(--radius);">
+          <span style="font-size:13px;color:var(--text-secondary);white-space:nowrap;">Annual revenue ($M) — for dollar impact</span>
+          <input type="number" id="con-rev" value="8" min="0.1" max="10000" step="0.1" oninput="calcInd('con')" style="width:90px;padding:5px 8px;font-size:14px;font-weight:500;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text-primary);text-align:right;">
+          <span style="font-size:13px;color:var(--text-muted);">M</span>
+        </div>
+        <!-- DSO/DPO dollar summary -->
+        <div id="con-wc-box" style="border-radius:var(--radius-lg);padding:14px 18px;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:16px;border:1.5px solid var(--border);background:var(--surface-2);">
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">A/R Float (DSO)</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:-0.02em;line-height:1;" id="con-dso-dollar">—</div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Supplier Float (DPO)</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:-0.02em;line-height:1;color:var(--good);" id="con-dpo-dollar">—</div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="sliders-section">
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Gross margin % (revenue minus direct job costs)</span><span class="slider-readout" id="con-l-gm">18%</span></div><input type="range" min="5" max="50" step="1" value="18" id="con-s-gm" oninput="calcInd('con')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Overhead as % of revenue</span><span class="slider-readout" id="con-l-oh">12%</span></div><input type="range" min="3" max="35" step="1" value="12" id="con-s-oh" oninput="calcInd('con')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Backlog (months of revenue under contract)</span><span class="slider-readout" id="con-l-bl">4 mo</span></div><input type="range" min="0" max="24" step="0.5" value="4" id="con-s-bl" oninput="calcInd('con')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Change order win rate %</span><span class="slider-readout" id="con-l-co">70%</span></div><input type="range" min="10" max="100" step="1" value="70" id="con-s-co" oninput="calcInd('con')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Job cost variance % (+ = over budget)</span><span class="slider-readout" id="con-l-var">5%</span></div><input type="range" min="-10" max="30" step="1" value="5" id="con-s-var" oninput="calcInd('con')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Safety incident rate (per 100 workers/yr)</span><span class="slider-readout" id="con-l-safe">3.0</span></div><input type="range" min="0" max="15" step="0.5" value="3" id="con-s-safe" oninput="calcInd('con')"></div>
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">DSO — days to collect from owners/GCs</span><span class="slider-readout" id="con-l-dso">45 days</span></div>
+            <input type="range" min="5" max="120" step="1" value="45" id="con-s-dso" oninput="calcInd('con')">
+            <div class="cash-impact" id="con-dso-impact"></div>
+          </div>
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">DPO — days to pay subs &amp; suppliers</span><span class="slider-readout" id="con-l-dpo">30 days</span></div>
+            <input type="range" min="5" max="90" step="1" value="30" id="con-s-dpo" oninput="calcInd('con')">
+            <div class="cash-impact" id="con-dpo-impact"></div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="insight" id="con-insight">Adjust sliders to see your benchmark position.</div>
+        <div style="margin-top:1.5rem;"><div class="card-title">Your metrics vs benchmarks</div><div id="con-bars" style="margin-top:10px;display:flex;flex-direction:column;gap:10px;"></div></div>
+      </div></div>
+      <div class="sidebar">
+        <div class="panel-desc"><h2>Construction KPIs</h2><p>Profit is made or lost in the field. Estimating accuracy, overhead discipline, and change order management separate 5% from 15% net margins. DSO is critical — getting paid before you must pay subs protects cash flow.</p></div>
+        <div class="formula-card"><div class="formula-label">Key relationships</div><div class="formula" style="font-size:14px;line-height:1.8;">Net margin = Gross margin − Overhead %<br>A/R float = Revenue × (DSO ÷ 365)<br>Job variance = (Actual − Est) ÷ Est<br>Backlog burn = Revenue ÷ 12/month</div></div>
+        <div class="tips-card"><div class="formula-label">AGC / RMA Benchmarks</div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Gross margin:</strong> 15–25% GC; 25–40% specialty</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Overhead ratio:</strong> 8–15% of revenue</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>DSO:</strong> 45–60 days typical; under 45 strong</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>DPO:</strong> 30–45 days; pay subs after you collect</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Backlog:</strong> 3–6 months healthy; under 2 = risk</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Job cost variance:</strong> Under 3% excellent; 10%+ = problem</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Change order win rate:</strong> 80%+ target</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>TRIR (safety):</strong> Under 2.0 below avg; under 1.0 excellent</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RETAIL -->
+  <div id="panel-ind-retail" class="panel">
+    <div style="margin-bottom:1.25rem;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;">Industry KPI Dashboard</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--text-primary);">Retail &amp; Distribution</div>
+      <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Brick-and-mortar retail, e-commerce, wholesale distributors, multi-channel sellers.</div>
+    </div>
+    <div class="panel-grid">
+      <div><div class="card">
+        <div class="card-title">Move sliders — cards and charts update live</div>
+        <div class="metrics-row" style="grid-template-columns:repeat(3,1fr)">
+          <div class="metric"><div class="metric-label">Gross Margin</div><div class="metric-val" id="ret-d-gm">—</div></div>
+          <div class="metric"><div class="metric-label">Inventory Turns</div><div class="metric-val" id="ret-d-inv">—</div></div>
+          <div class="metric"><div class="metric-label">Net Margin</div><div class="metric-val" id="ret-d-nm">—</div></div>
+        </div>
+        <!-- Revenue lever -->
+        <div style="display:flex;align-items:center;gap:12px;margin:1rem 0;padding:12px 14px;background:var(--surface-2);border-radius:var(--radius);">
+          <span style="font-size:13px;color:var(--text-secondary);white-space:nowrap;">Annual revenue ($M) — for dollar impact</span>
+          <input type="number" id="ret-rev" value="5" min="0.1" max="10000" step="0.1" oninput="calcInd('ret')" style="width:90px;padding:5px 8px;font-size:14px;font-weight:500;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text-primary);text-align:right;">
+          <span style="font-size:13px;color:var(--text-muted);">M</span>
+        </div>
+        <!-- CCC summary box -->
+        <div id="ret-ccc-box" style="border-radius:var(--radius-lg);padding:14px 18px;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:16px;border:1.5px solid var(--border);background:var(--surface-2);">
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Cash Conversion Cycle</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:-0.02em;line-height:1;" id="ret-ccc-days">—</div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Working Capital Tied Up</div>
+            <div style="font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:-0.02em;line-height:1;" id="ret-ccc-dollar">—</div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="sliders-section">
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Gross margin %</span><span class="slider-readout" id="ret-l-gm">35%</span></div><input type="range" min="5" max="70" step="1" value="35" id="ret-s-gm" oninput="calcInd('ret')"></div>
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">Inventory turns (×/year)</span><span class="slider-readout" id="ret-l-inv">6×</span></div>
+            <input type="range" min="1" max="40" step="0.5" value="6" id="ret-s-inv" oninput="calcInd('ret')">
+            <div class="cash-impact" id="ret-dio-impact"></div>
+          </div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Sales per sq ft ($/yr)</span><span class="slider-readout" id="ret-l-sqft">$350</span></div><input type="range" min="50" max="1500" step="10" value="350" id="ret-s-sqft" oninput="calcInd('ret')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Net margin %</span><span class="slider-readout" id="ret-l-nm">4%</span></div><input type="range" min="0" max="20" step="0.5" value="4" id="ret-s-nm" oninput="calcInd('ret')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Shrinkage / loss rate % of revenue</span><span class="slider-readout" id="ret-l-shrink">1.5%</span></div><input type="range" min="0" max="8" step="0.1" value="1.5" id="ret-s-shrink" oninput="calcInd('ret')"></div>
+          <div class="slider-row"><div class="slider-meta"><span class="slider-label">Customer return rate % of sales</span><span class="slider-readout" id="ret-l-ret">8%</span></div><input type="range" min="1" max="40" step="1" value="8" id="ret-s-ret" oninput="calcInd('ret')"></div>
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">DSO — days to collect (B2B / wholesale)</span><span class="slider-readout" id="ret-l-dso">10 days</span></div>
+            <input type="range" min="0" max="60" step="1" value="10" id="ret-s-dso" oninput="calcInd('ret')">
+            <div class="cash-impact" id="ret-dso-impact"></div>
+          </div>
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">DPO — days to pay vendors</span><span class="slider-readout" id="ret-l-dpo">30 days</span></div>
+            <input type="range" min="5" max="90" step="1" value="30" id="ret-s-dpo" oninput="calcInd('ret')">
+            <div class="cash-impact" id="ret-dpo-impact"></div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="insight" id="ret-insight">Adjust sliders to see your benchmark position.</div>
+        <div style="margin-top:1.5rem;"><div class="card-title">Your metrics vs benchmarks</div><div id="ret-bars" style="margin-top:10px;display:flex;flex-direction:column;gap:10px;"></div></div>
+      </div></div>
+      <div class="sidebar">
+        <div class="panel-desc"><h2>Retail &amp; Distribution KPIs</h2><p>Profitability lives in the spread between gross margin and occupancy/labor, amplified by inventory velocity. DIO and DPO are your two biggest working capital levers — faster turns and longer payment terms free cash without borrowing.</p></div>
+        <div class="formula-card"><div class="formula-label">Key relationships</div><div class="formula" style="font-size:14px;line-height:1.8;">DIO = 365 ÷ Inventory turns<br>CCC = DIO + DSO − DPO<br>WC tied up = Revenue × (CCC ÷ 365)<br>GMROI = Gross margin $ ÷ Avg inventory cost</div></div>
+        <div class="tips-card"><div class="formula-label">NRF / RMA Benchmarks</div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Gross margin:</strong> 30–50% specialty; 20–30% distribution</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Inventory turns:</strong> 4–8× specialty; 10–20× distribution</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>DIO:</strong> 46–91 days specialty; 18–37 days distribution</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>DSO:</strong> Near 0 retail; 15–30 days wholesale/B2B</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>DPO:</strong> 30–45 days; negotiate terms aggressively</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Sales/sq ft:</strong> $200–400 typical; $500+ strong</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Net margin:</strong> 2–6% retail; 1–4% distribution</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Shrinkage:</strong> ~1.6% avg; under 1% excellent</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Return rate:</strong> 5–10% in-store; 20–30% e-commerce</span></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end panel-ind-retail -->
+
   </div><!-- end levers-center -->
 
 
@@ -3012,11 +3339,21 @@
 function showPanel(id, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.lever-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  btn.classList.add('active');
-  // Update active tool indicator
-  const nameEl = document.getElementById('active-tool-display');
-  if (nameEl && btn.dataset.label) nameEl.textContent = btn.dataset.label;
+
+  const panel = document.getElementById('panel-' + id);
+  if (!panel) { console.warn('showPanel: missing panel-' + id); return; }
+  panel.classList.add('active');
+
+  const activeBtn = btn || document.querySelector('.lever-btn[onclick*="\'' + id + '\'"]');
+  if (activeBtn) {
+    activeBtn.classList.add('active');
+    const nameEl = document.getElementById('active-tool-display');
+    if (nameEl && activeBtn.dataset.label) nameEl.textContent = activeBtn.dataset.label;
+    activeBtn.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+
+  const center = document.querySelector('.levers-center');
+  if (center) center.scrollTop = 0;
 }
 
 function fmt(n, d=1) { return n.toFixed(d); }
@@ -3033,6 +3370,17 @@ function calcCCC() {
   document.getElementById('dio-val').textContent = dio + ' days';
   document.getElementById('dso-val').textContent = dso + ' days';
   document.getElementById('dpo-val').textContent = dpo + ' days';
+
+  // Dollar equivalents for each metric
+  const dioDollars = (dio / 365) * rev;
+  const dsoDollars = (dso / 365) * rev;
+  const dpoDollars = (dpo / 365) * rev;
+  const dioDollarEl = document.getElementById('dio-dollar');
+  const dsoDollarEl = document.getElementById('dso-dollar');
+  const dpoDollarEl = document.getElementById('dpo-dollar');
+  if (dioDollarEl) dioDollarEl.textContent = '≈ ' + fmtM(dioDollars) + ' in inventory cash';
+  if (dsoDollarEl) dsoDollarEl.textContent = '≈ ' + fmtM(dsoDollars) + ' in receivables';
+  if (dpoDollarEl) dpoDollarEl.textContent = '≈ ' + fmtM(dpoDollars) + ' of supplier float';
 
   const BENCHMARK = 38;
   const ccc = dio + dso - dpo;
@@ -3950,6 +4298,264 @@ function calcFix() {
 }
 
 calcCCC(); calcInflation(); calcMix('r'); calcBE(); calcChurn(); calcPrice(); calcDiscount(); calcEquip(); calcOL(); calcDSCR();
+
+
+// ══════════════ INDUSTRY KPI DASHBOARDS ══════════════
+
+var IND = {
+  svc: {
+    keys:   ['gm','util','rpe','nm','ret','dso','dpo'],
+    labels: ['Gross margin %','Utilization rate %','Revenue/employee ($K)','Net margin %','Client retention %','DSO (days)','DPO (days)'],
+    fmts:   [function(v){return v+'%';}, function(v){return v+'%';}, function(v){return '$'+v+'K';}, function(v){return v+'%';}, function(v){return v+'%';}, function(v){return v+' days';}, function(v){return v+' days';}],
+    good:   [50,  75,  250, 15,  90,  30,  25],
+    warn:   [35,  60,  100,  8,  75,  60,  10],
+    dirs:   ['up','up','up','up','up','down','up'],
+    disp:   ['gm','util','nm'],
+    insight: function(v) {
+      var issues = [];
+      if (v.util < 60) issues.push('utilization below 60% — unbilled capacity is your biggest cost');
+      if (v.gm   < 35) issues.push('gross margin under 35% — pricing or labor cost needs attention');
+      if (v.dso  > 60) issues.push('DSO over 60 days signals collection risk');
+      if (v.ret  < 75) issues.push('retention under 75% — churn is eroding your base');
+      return issues.length ? 'Areas to address: '+issues.join('; ')+'.' : 'Strong position. At '+v.util+'% utilization and '+v.gm+'% gross margin, your service engine is performing well.';
+    }
+  },
+  mfg: {
+    keys:   ['gm','inv','oee','ebitda','otd','scrap','dso','dpo'],
+    labels: ['Gross margin %','Inventory turns (x/yr)','OEE %','EBITDA margin %','On-time delivery %','Scrap / defect rate %','DSO (days)','DPO (days)'],
+    fmts:   [function(v){return v+'%';}, function(v){return v+'x';}, function(v){return v+'%';}, function(v){return v+'%';}, function(v){return v+'%';}, function(v){return v+'%';}, function(v){return v+' days';}, function(v){return v+' days';}],
+    good:   [35,  10,  85,  15,  95,  2,  30,  40],
+    warn:   [20,   4,  60,   8,  85,  5,  45,  20],
+    dirs:   ['up','up','up','up','up','down','down','up'],
+    disp:   ['gm','inv','oee'],
+    insight: function(v) {
+      var issues = [];
+      if (v.oee   < 60) issues.push('OEE under 60% — significant capacity lost');
+      if (v.inv   <  4) issues.push('inventory turns below 4x — too much cash in stock');
+      if (v.scrap >  5) issues.push('scrap rate above 5% — quality process needs review');
+      if (v.otd   < 85) issues.push('on-time delivery below 85% — customer satisfaction risk');
+      if (v.dso   > 45) issues.push('DSO over 45 days — A/R building up');
+      return issues.length ? 'Areas to address: '+issues.join('; ')+'.' : 'Solid performance. OEE of '+v.oee+'% and '+v.inv+'x turns indicate efficient production.';
+    }
+  },
+  con: {
+    keys:   ['gm','oh','bl','co','var','safe','dso','dpo'],
+    labels: ['Gross margin %','Overhead ratio %','Backlog (months)','Change order win rate %','Job cost variance %','Safety incident rate','DSO (days)','DPO (days)'],
+    fmts:   [function(v){return v+'%';}, function(v){return v+'%';}, function(v){return v+' mo';}, function(v){return v+'%';}, function(v){return Math.abs(v)+'%';}, function(v){return v.toFixed(1);}, function(v){return v+' days';}, function(v){return v+' days';}],
+    good:   [22,  10,  5,   85,  3,  1.0, 45,  35],
+    warn:   [15,  15,  2,   60, 10,  3.0, 75,  15],
+    dirs:   ['up','down','up','up','down','down','down','up'],
+    disp:   ['gm','bl','dso'],
+    insight: function(v) {
+      var nm = (v.gm || 0) - (v.oh || 0);
+      var issues = [];
+      if (nm          <  3) issues.push('net margin under 3% — overhead consuming job margin');
+      if ((v.bl||0)   <  2) issues.push('backlog under 2 months — revenue visibility dangerously low');
+      if ((v['var']||0) > 10) issues.push('job cost variance over 10% — estimating needs work');
+      if ((v.dso||0)  > 75) issues.push('DSO over 75 days — slow pay from owners is a cash drain');
+      return issues.length ? 'Areas to address: '+issues.join('; ')+'.' : 'Healthy metrics. GM of '+(v.gm||0)+'% minus overhead of '+(v.oh||0)+'% = '+nm.toFixed(1)+'% net margin, with '+(v.bl||0)+' months backlog.';
+    }
+  },
+  ret: {
+    keys:   ['gm','inv','sqft','nm','shrink','ret','dso','dpo'],
+    labels: ['Gross margin %','Inventory turns (x/yr)','Sales per sq ft ($)','Net margin %','Shrinkage %','Return rate %','DSO (days)','DPO (days)'],
+    fmts:   [function(v){return v+'%';}, function(v){return v+'x';}, function(v){return '$'+v;}, function(v){return v+'%';}, function(v){return v+'%';}, function(v){return v+'%';}, function(v){return v+' days';}, function(v){return v+' days';}],
+    good:   [40,   8,  400,  5,  1,   8,  15,  35],
+    warn:   [25,   4,  200,  2,  2,  20,  30,  15],
+    dirs:   ['up','up','up','up','down','down','down','up'],
+    disp:   ['gm','inv','nm'],
+    insight: function(v) {
+      var issues = [];
+      if (v.inv    <  4) issues.push('inventory turns below 4x — capital sitting on shelves');
+      if (v.shrink >  2) issues.push('shrinkage above 2% — theft and damage are a real cost');
+      if (v.nm     <  2) issues.push('net margin under 2% — pricing, labor or rent consuming margin');
+      if (v['ret'] > 20) issues.push('return rate above 20% — product-market fit or quality issue');
+      if (v.dso    > 30) issues.push('DSO over 30 days — A/R collection lagging for B2B');
+      return issues.length ? 'Areas to address: '+issues.join('; ')+'.' : 'Strong metrics. '+v.gm+'% gross margin and '+v.inv+'x inventory turns generate solid GMROI.';
+    }
+  }
+};
+
+function indBar(label, val, fmt, good, warn, dir) {
+  var isGood = dir === 'up' ? val >= good : val <= good;
+  var isWarn = dir === 'up' ? val >= warn : val <= warn;
+  var color  = isGood ? 'var(--good)' : (isWarn ? 'var(--warn)' : 'var(--bad)');
+  var badge  = isGood ? '✓ Strong' : (isWarn ? '⚠ Watch' : '✕ Below');
+  var pct    = dir === 'up'
+    ? Math.min(100, Math.max(0, val / (good * 1.4) * 100))
+    : Math.min(100, Math.max(0, (good * 1.4 - val) / (good * 1.4) * 100));
+  var bPct   = 71.4;
+  return '<div style="background:#F5F7FA;border:1px solid #E0E3E8;border-radius:6px;padding:12px 14px;">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
+    + '<span style="font-size:12px;font-weight:600;color:var(--text-secondary)">' + label + '</span>'
+    + '<div style="display:flex;align-items:center;gap:10px;">'
+    + '<span style="font-size:17px;font-weight:700;color:' + color + '">' + fmt(val) + '</span>'
+    + '<span style="font-size:10px;font-weight:600;color:' + color + ';border:1px solid ' + color + ';border-radius:3px;padding:2px 7px;">' + badge + '</span>'
+    + '</div></div>'
+    + '<div style="position:relative;height:8px;background:#D8DBE0;border-radius:4px;">'
+    + '<div style="position:absolute;left:0;top:0;height:100%;width:' + pct.toFixed(1) + '%;background:' + color + ';border-radius:4px;transition:width 0.3s;"></div>'
+    + '<div style="position:absolute;left:' + bPct + '%;top:-3px;width:2px;height:14px;background:#1A2B45;border-radius:1px;"></div>'
+    + '</div>'
+    + '<div style="display:flex;justify-content:space-between;margin-top:5px;">'
+    + '<span style="font-size:10px;color:var(--text-muted)">Benchmark: ' + fmt(good) + '</span>'
+    + '<span style="font-size:10px;color:var(--text-muted)">' + (dir==='up'?'Higher is better':'Lower is better') + '</span>'
+    + '</div></div>';
+}
+
+function calcInd(p) {
+  var cfg = IND[p];
+  var v = {};
+
+  // Read sliders
+  cfg.keys.forEach(function(k) {
+    var el = document.getElementById(p+'-s-'+k);
+    if (el) v[k] = parseFloat(el.value);
+  });
+
+  // Read revenue lever ($M)
+  var revEl = document.getElementById(p+'-rev');
+  var revM = revEl ? Math.max(0.01, parseFloat(revEl.value) || 1) : 0;
+
+  // Computed: construction net margin (not a slider — derived from gm - oh)
+  if (p === 'con') v._nm = parseFloat(((v.gm || 0) - (v.oh || 0)).toFixed(1));
+
+  // Update readout labels
+  cfg.keys.forEach(function(k, i) {
+    var lbl = document.getElementById(p+'-l-'+k);
+    if (lbl && v[k] !== undefined) lbl.textContent = cfg.fmts[i](v[k]);
+  });
+
+  // Update top metric display cards
+  cfg.disp.forEach(function(k) {
+    var el = document.getElementById(p+'-d-'+k);
+    if (!el) return;
+    var i = cfg.keys.indexOf(k);
+    if (i < 0) return;
+    var val = v[k];
+    var isGood = cfg.dirs[i]==='up' ? val >= cfg.good[i] : val <= cfg.good[i];
+    var isWarn = cfg.dirs[i]==='up' ? val >= cfg.warn[i] : val <= cfg.warn[i];
+    el.textContent = cfg.fmts[i](val);
+    el.className = 'metric-val' + (isGood?' good':isWarn?' warn':' bad');
+  });
+
+  // Insight
+  var insEl = document.getElementById(p+'-insight');
+  if (insEl) insEl.textContent = cfg.insight(v);
+  if (insEl) insEl.className = insEl.textContent.indexOf('Areas')===0 ? 'insight warn' : 'insight';
+
+  // Benchmark bars
+  var barsEl = document.getElementById(p+'-bars');
+  if (barsEl) {
+    var html = '';
+    cfg.keys.forEach(function(k, i) {
+      if (v[k] !== undefined) {
+        html += indBar(cfg.labels[i], v[k], cfg.fmts[i], cfg.good[i], cfg.warn[i], cfg.dirs[i]);
+      }
+    });
+    barsEl.innerHTML = html;
+  }
+
+  // ── Dollar impact displays ──
+  function fmtDollar(m) {
+    if (m >= 1) return '$' + m.toFixed(1) + 'M';
+    return '$' + (m * 1000).toFixed(0) + 'K';
+  }
+  function setImpactLine(elId, days, rev, label) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    if (!rev || !days) { el.textContent = ''; el.className = 'cash-impact neutral'; return; }
+    var dollars = fmtDollar(Math.abs((days / 365) * rev));
+    el.textContent = '≈ ' + dollars + ' ' + label;
+    el.className = 'cash-impact neutral';
+    el.style.color = 'var(--text-muted)';
+  }
+
+  if (revM > 0) {
+    // SERVICE: DSO and DPO dollar displays
+    if (p === 'svc' && v.dso !== undefined) {
+      var dsoDollars = (v.dso / 365) * revM;
+      var dpoDollars = v.dpo !== undefined ? (v.dpo / 365) * revM : 0;
+      var dsoBox = document.getElementById('svc-dso-box');
+      var dsoDollarEl = document.getElementById('svc-dso-dollar');
+      var dsoSubEl = document.getElementById('svc-dso-sub');
+      if (dsoDollarEl) dsoDollarEl.textContent = fmtDollar(dsoDollars);
+      if (dsoSubEl) dsoSubEl.textContent = v.dso + ' days DSO × $' + revM.toFixed(1) + 'M revenue ÷ 365. Reduce by 10 days → free ' + fmtDollar((10/365)*revM) + '.';
+      if (dsoBox) { dsoBox.style.borderColor = v.dso > 60 ? '#F09595' : v.dso > 45 ? '#E8B84B' : '#5DCAA5'; dsoBox.style.background = v.dso > 60 ? 'var(--bad-bg)' : v.dso > 45 ? 'var(--warn-bg)' : 'var(--good-bg)'; }
+      if (dsoDollarEl) dsoDollarEl.style.color = v.dso > 60 ? 'var(--bad)' : v.dso > 45 ? 'var(--warn)' : 'var(--text-primary)';
+      setImpactLine('svc-dso-impact', v.dso, revM, 'tied in receivables');
+      setImpactLine('svc-dpo-impact', v.dpo, revM, 'of supplier float');
+    }
+
+    // MANUFACTURING: CCC box, inventory dollar line, DSO/DPO lines
+    if (p === 'mfg' && v.inv !== undefined) {
+      var dio = v.inv > 0 ? Math.round(365 / v.inv) : 0;
+      var dso = v.dso || 0;
+      var dpo = v.dpo || 0;
+      var ccc = dio + dso - dpo;
+      var wcM = (ccc / 365) * revM;
+      var cccDaysEl = document.getElementById('mfg-ccc-days');
+      var cccDollarEl = document.getElementById('mfg-ccc-dollar');
+      if (cccDaysEl) { cccDaysEl.textContent = ccc + ' days'; cccDaysEl.style.color = ccc < 45 ? 'var(--good)' : ccc < 75 ? 'var(--warn)' : 'var(--bad)'; }
+      if (cccDollarEl) { cccDollarEl.textContent = fmtDollar(Math.max(0, wcM)); cccDollarEl.style.color = ccc < 45 ? 'var(--good)' : ccc < 75 ? 'var(--warn)' : 'var(--bad)'; }
+      // Update inv label to show DIO too
+      var invLbl = document.getElementById('mfg-l-inv');
+      if (invLbl) invLbl.textContent = v.inv + '× (' + dio + ' days)';
+      setImpactLine('mfg-dio-impact', dio, revM, 'in inventory (DIO = ' + dio + ' days)');
+      setImpactLine('mfg-dso-impact', dso, revM, 'in receivables (DSO)');
+      setImpactLine('mfg-dpo-impact', dpo, revM, 'of supplier float (DPO)');
+    }
+
+    // CONSTRUCTION: DSO and DPO dollar displays
+    if (p === 'con' && v.dso !== undefined) {
+      // Show computed net margin in the top metrics card
+      var conNm = (v.gm || 0) - (v.oh || 0);
+      var conNmEl = document.getElementById('con-d-nm');
+      if (conNmEl) {
+        conNmEl.textContent = conNm.toFixed(1) + '%';
+        conNmEl.className = 'metric-val' + (conNm >= 8 ? ' good' : conNm >= 3 ? ' warn' : ' bad');
+      }
+      var conDso = v.dso || 0;
+      var conDpo = v.dpo || 0;
+      var conDsoDollars = (conDso / 365) * revM;
+      var conDpoDollars = (conDpo / 365) * revM;
+      var conDsoEl = document.getElementById('con-dso-dollar');
+      var conDpoEl = document.getElementById('con-dpo-dollar');
+      if (conDsoEl) { conDsoEl.textContent = fmtDollar(conDsoDollars); conDsoEl.style.color = conDso > 75 ? 'var(--bad)' : conDso > 45 ? 'var(--warn)' : 'var(--text-primary)'; }
+      if (conDpoEl) { conDpoEl.textContent = fmtDollar(conDpoDollars); conDpoEl.style.color = 'var(--good)'; }
+      setImpactLine('con-dso-impact', conDso, revM, 'floating in unpaid A/R');
+      setImpactLine('con-dpo-impact', conDpo, revM, 'of sub/supplier float you hold');
+    }
+
+    // RETAIL: CCC box, inventory dollar line, DSO/DPO lines
+    if (p === 'ret' && v.inv !== undefined) {
+      var retDio = v.inv > 0 ? Math.round(365 / v.inv) : 0;
+      var retDso = v.dso || 0;
+      var retDpo = v.dpo || 0;
+      var retCcc = retDio + retDso - retDpo;
+      var retWcM = (retCcc / 365) * revM;
+      var retCccDaysEl = document.getElementById('ret-ccc-days');
+      var retCccDollarEl = document.getElementById('ret-ccc-dollar');
+      if (retCccDaysEl) { retCccDaysEl.textContent = retCcc + ' days'; retCccDaysEl.style.color = retCcc < 30 ? 'var(--good)' : retCcc < 60 ? 'var(--warn)' : 'var(--bad)'; }
+      if (retCccDollarEl) { retCccDollarEl.textContent = fmtDollar(Math.max(0, retWcM)); retCccDollarEl.style.color = retCcc < 30 ? 'var(--good)' : retCcc < 60 ? 'var(--warn)' : 'var(--bad)'; }
+      // Update inv label to show DIO too
+      var retInvLbl = document.getElementById('ret-l-inv');
+      if (retInvLbl) retInvLbl.textContent = v.inv + '× (' + retDio + ' days)';
+      setImpactLine('ret-dio-impact', retDio, revM, 'in inventory (DIO = ' + retDio + ' days)');
+      setImpactLine('ret-dso-impact', retDso, revM, 'in receivables (DSO)');
+      setImpactLine('ret-dpo-impact', retDpo, revM, 'of vendor float (DPO)');
+    }
+  }
+} // end calcInd
+
+// Run all industry calcs once DOM is ready
+(function initInd() {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { calcInd('svc'); calcInd('mfg'); calcInd('con'); calcInd('ret'); });
+  } else {
+    calcInd('svc'); calcInd('mfg'); calcInd('con'); calcInd('ret');
+  }
+})();
+
 </script>
 </div>
 
@@ -4462,7 +5068,9 @@ calcCF(); calcRatios(); calcGrowth(); calcFCVC();
 function openTool(tabId) {
   document.getElementById('app-body').classList.add('showing-levers');
   window.scrollTo(0,0);
-  const btn = document.querySelector('.lever-btn[onclick*="' + tabId + '"]');
+  // Try by ID first (industry buttons have explicit IDs), then by onclick pattern
+  const btn = document.getElementById('btn-' + tabId) ||
+              document.querySelector('.lever-btn[onclick*="\'' + tabId + '\'"]');
   if (btn) btn.click();
 }
 
