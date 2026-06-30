@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financial Clarity — Free Sample | The Shnider Group LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#F5F7FA; --bg-alt:#EAECEF; --surface:#FFFFFF; --surface-2:#F0F2F5;
+  --text-primary:#1A2B45; --text-secondary:#3D5A7A; --text-muted:#6B8299;
+  --border:rgba(26,43,69,0.13); --border-strong:rgba(26,43,69,0.28);
+  --accent:#C9A84C; --accent-light:rgba(201,168,76,0.10);
+  --navy:#1A2B45; --navy-dark:#0D1E33;
+  --good:#2E8B5A; --good-bg:rgba(46,139,90,0.09);
+  --warn:#B87A20; --warn-bg:rgba(184,122,32,0.09);
+  --bad:#C0392B; --bad-bg:rgba(192,57,43,0.09);
+  --radius:6px; --radius-lg:10px;
+}
+body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text-primary); min-height:100vh; }
+
+/* GATE */
+#gate-overlay {
+  position:fixed; inset:0; z-index:9999;
+  background:rgba(10,20,40,0.88);
+  display:flex; align-items:center; justify-content:center;
+  backdrop-filter:blur(5px);
+}
+.gate-box {
+  background:var(--surface); border-radius:14px;
+  padding:44px 48px; max-width:460px; width:90%;
+  box-shadow:0 32px 80px rgba(0,0,0,0.35); text-align:center;
+}
+.gate-logo {
+  width:52px; height:52px; background:var(--navy-dark); border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:26px; font-weight:700; color:var(--accent); margin:0 auto 20px;
+}
+.gate-box h2 { font-family:'DM Serif Display',serif; font-size:26px; color:var(--navy-dark); margin-bottom:10px; }
+.gate-box p  { font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom:24px; }
+.gate-row    { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.gate-field  { margin-bottom:14px; text-align:left; }
+.gate-field label { display:block; font-size:11px; font-weight:600; color:var(--text-muted); margin-bottom:5px; letter-spacing:.05em; text-transform:uppercase; }
+.gate-field input {
+  width:100%; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:var(--radius); font-size:14px; color:var(--text-primary);
+  font-family:'Inter',sans-serif; outline:none; transition:border-color .2s;
+}
+.gate-field input:focus { border-color:var(--accent); }
+.gate-btn {
+  width:100%; padding:13px; background:var(--navy-dark); color:#fff;
+  border:none; border-radius:var(--radius); font-size:15px; font-weight:700;
+  cursor:pointer; font-family:'Inter',sans-serif; transition:background .2s; margin-top:6px;
+}
+.gate-btn:hover { background:#1e3a5f; }
+.gate-btn:disabled { opacity:.6; cursor:default; }
+.gate-error { display:none; margin-top:10px; font-size:13px; color:var(--bad); font-weight:500; }
+.gate-legal { font-size:11px; color:var(--text-muted); margin-top:14px; line-height:1.5; }
+
+/* HEADER */
+.hdr { background:var(--navy-dark); padding:16px 36px; display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid var(--accent); }
+.hdr-brand { display:flex; align-items:center; gap:12px; }
+.hdr-logo { width:36px; height:36px; background:var(--accent); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:17px; font-weight:700; color:var(--navy-dark); }
+.hdr-name { font-size:15px; font-weight:600; color:#fff; }
+.hdr-sub  { font-size:11px; color:rgba(255,255,255,0.45); margin-top:1px; }
+.hdr-cta  { background:var(--accent); color:var(--navy-dark); border:none; border-radius:var(--radius); padding:9px 20px; font-size:13px; font-weight:700; cursor:pointer; text-decoration:none; }
+.hdr-cta:hover { background:#e0bb58; }
+
+/* HERO */
+.hero { background:linear-gradient(135deg,var(--navy-dark) 0%,#1e3a5f 100%); padding:48px 36px 40px; text-align:center; }
+.hero-badge { display:inline-block; background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.4); color:var(--accent); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 14px; border-radius:20px; margin-bottom:18px; }
+.hero h1 { font-family:'DM Serif Display',serif; font-size:38px; color:#fff; line-height:1.15; margin-bottom:14px; }
+.hero h1 span { color:var(--accent); }
+.hero p { font-size:15px; color:rgba(255,255,255,0.65); max-width:560px; margin:0 auto; line-height:1.6; }
+
+/* SCENARIO TABS */
+.wrap { max-width:1160px; margin:0 auto; padding:40px 32px 64px; }
+.sec-label { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px; }
+.sec-title { font-family:'DM Serif Display',serif; font-size:26px; color:var(--navy-dark); margin-bottom:6px; }
+.sec-desc  { font-size:14px; color:var(--text-secondary); margin-bottom:28px; line-height:1.6; }
+.stabs { display:flex; gap:10px; margin-bottom:28px; flex-wrap:wrap; }
+.stab { padding:9px 22px; border-radius:20px; border:1.5px solid var(--border); background:var(--surface); font-size:13px; font-weight:600; color:var(--text-secondary); cursor:pointer; transition:all .18s; }
+.stab:hover { border-color:var(--navy); color:var(--navy); }
+.stab.active { background:var(--navy-dark); color:#fff; border-color:var(--navy-dark); }
+
+/* LAYOUT */
+.tool-layout { display:grid; grid-template-columns:1fr 300px; gap:24px; align-items:start; }
+
+/* CARD */
+.card { background:var(--surface); border-radius:10px; border:1px solid var(--border); padding:24px 26px; box-shadow:0 2px 10px rgba(26,43,69,0.06); }
+.card-title { font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--text-muted); margin-bottom:14px; }
+
+/* METRICS ROW */
+.metrics-row { display:grid; gap:12px; margin-bottom:16px; }
+.metric { background:var(--surface-2); border-radius:var(--radius); padding:12px 14px; text-align:center; }
+.metric-label { font-size:11px; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px; }
+.metric-val { font-family:'DM Serif Display',serif; font-size:24px; color:var(--text-primary); }
+.metric-val.good { color:var(--good); }
+.metric-val.warn { color:var(--warn); }
+.metric-val.bad  { color:var(--bad);  }
+
+/* SUMMARY BOX */
+.sum-box { border-radius:var(--radius-lg); padding:14px 18px; margin-bottom:1rem; display:flex; align-items:center; justify-content:space-between; gap:16px; border:1.5px solid var(--border); background:var(--surface-2); }
+.sum-box-label { font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px; }
+.sum-box-val { font-family:'DM Serif Display',serif; font-size:28px; letter-spacing:-.02em; line-height:1; }
+
+/* REVENUE INPUT */
+.rev-row { display:flex; align-items:center; gap:12px; margin:1rem 0; padding:12px 14px; background:var(--surface-2); border-radius:var(--radius); }
+.rev-row span { font-size:13px; color:var(--text-secondary); white-space:nowrap; }
+.rev-row input { width:90px; padding:5px 8px; font-size:14px; font-weight:500; border:1px solid var(--border); border-radius:6px; background:var(--surface); color:var(--text-primary); text-align:right; font-family:'Inter',sans-serif; outline:none; }
+.rev-row input:focus { border-color:var(--accent); }
+
+/* SLIDERS */
+.sliders-section { display:flex; flex-direction:column; gap:14px; }
+.slider-row { display:flex; flex-direction:column; gap:4px; }
+.slider-meta { display:flex; justify-content:space-between; align-items:center; }
+.slider-label { font-size:13px; color:var(--text-secondary); }
+.slider-readout { font-size:13px; font-weight:700; color:var(--text-primary); min-width:70px; text-align:right; }
+input[type=range] { width:100%; accent-color:var(--navy-dark); height:4px; }
+.cash-impact { font-size:11px; color:var(--text-muted); min-height:14px; }
+
+/* INSIGHT */
+.insight { padding:12px 14px; border-radius:var(--radius); background:var(--warn-bg); border-left:3px solid var(--warn); font-size:13px; color:var(--text-secondary); line-height:1.6; margin-top:16px; }
+.insight.good-insight { background:var(--good-bg); border-left-color:var(--good); }
+
+/* DIVIDER */
+hr { border:none; border-top:1px solid var(--border); margin:18px 0; }
+
+/* SIDEBAR */
+.sidebar-card { background:var(--surface); border-radius:10px; border:1px solid var(--border); padding:20px; box-shadow:0 2px 10px rgba(26,43,69,0.06); margin-bottom:16px; }
+.sidebar-card h3 { font-family:'DM Serif Display',serif; font-size:19px; color:var(--navy-dark); margin-bottom:10px; }
+.sidebar-card p { font-size:13px; color:var(--text-secondary); line-height:1.6; margin-bottom:10px; }
+.formula-card { background:var(--navy-dark); border-radius:var(--radius); padding:14px 16px; margin-bottom:14px; }
+.formula-label { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:8px; }
+.formula { font-family:'DM Serif Display',serif; font-size:13px; color:rgba(255,255,255,0.85); line-height:1.9; }
+.tips-card { background:var(--surface-2); border-radius:var(--radius); padding:14px 16px; }
+.tip-item { display:flex; gap:8px; margin-bottom:8px; font-size:12px; color:var(--text-secondary); line-height:1.5; }
+.tip-dot { width:6px; height:6px; background:var(--accent); border-radius:50%; flex-shrink:0; margin-top:4px; }
+
+/* UPGRADE */
+.upgrade-card { background:linear-gradient(135deg,var(--navy-dark),#1e3a5f); border-radius:10px; padding:22px 20px; text-align:center; }
+.upgrade-card h3 { font-family:'DM Serif Display',serif; font-size:20px; color:#fff; margin-bottom:8px; }
+.upgrade-card p { font-size:13px; color:rgba(255,255,255,0.6); line-height:1.6; margin-bottom:14px; }
+.upgrade-list { text-align:left; margin-bottom:16px; list-style:none; }
+.upgrade-list li { font-size:12px; color:rgba(255,255,255,0.7); padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.08); }
+.upgrade-list li::before { content:'✓ '; color:var(--accent); font-weight:700; }
+.upgrade-btn { display:block; width:100%; padding:12px; background:var(--accent); color:var(--navy-dark); border:none; border-radius:var(--radius); font-size:14px; font-weight:700; cursor:pointer; text-decoration:none; font-family:'Inter',sans-serif; }
+.upgrade-btn:hover { background:#e0bb58; }
+
+/* BENCHMARK BARS */
+#ind-bars { display:flex; flex-direction:column; gap:10px; margin-top:10px; }
+
+/* FOOTER */
+.footer { background:var(--navy-dark); padding:24px 36px; text-align:center; font-size:12px; color:rgba(255,255,255,0.35); border-top:1px solid rgba(255,255,255,0.08); }
+.footer a { color:var(--accent); text-decoration:none; }
+
+/* PANELS */
+.ind-panel { display:none; }
+.ind-panel.active { display:block; }
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate-overlay">
+  <div class="gate-box">
+    <div class="gate-logo">S</div>
+    <h2>Try Financial Clarity Free</h2>
+    <p>Get instant access to 3 interactive industry KPI dashboards — Professional Services, Manufacturing, and Construction — with live benchmarks and slider-driven analysis.</p>
+    <div class="gate-row">
+      <div class="gate-field"><label>First Name</label><input type="text" id="g-first" placeholder="Jane" autocomplete="given-name"></div>
+      <div class="gate-field"><label>Last Name</label><input type="text" id="g-last" placeholder="Smith" autocomplete="family-name"></div>
+    </div>
+    <div class="gate-field"><label>Work Email</label><input type="email" id="g-email" placeholder="jane@company.com" autocomplete="email"></div>
+    <div class="gate-field"><label>Company (optional)</label><input type="text" id="g-company" placeholder="Acme Corp"></div>
+    <button class="gate-btn" id="gate-btn" onclick="submitGate()">Get Free Access →</button>
+    <div class="gate-error" id="gate-error">Please enter your name and a valid email address.</div>
+    <p class="gate-legal">No credit card required. Your information is shared only with The Shnider Group LLC.</p>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-brand">
+    <div class="hdr-logo">S</div>
+    <div><div class="hdr-name">The Shnider Group LLC</div><div class="hdr-sub">Financial Clarity — Free Sample Tool</div></div>
+  </div>
+  <a class="hdr-cta" href="https://www.theshnidergroup.com/financial-clarity" target="_blank">Unlock Full Suite →</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Free — 3 Industry KPI Dashboards</div>
+  <h1>Know Your Numbers.<br><span>Beat Your Benchmarks.</span></h1>
+  <p>Move the sliders and watch your key metrics score against RMA and industry benchmarks in real time. Built for small business owners and their advisors.</p>
+</div>
+
+<!-- MAIN -->
+<div class="wrap">
+  <div class="sec-label">Free Sample Scenarios</div>
+  <div class="sec-title">Choose your industry</div>
+  <div class="sec-desc">Each dashboard is pre-loaded with realistic starting values. Dial in your actual numbers to see where you stand against benchmarks — and what to fix first.</div>
+
+  <div class="stabs">
+    <button class="stab active" onclick="showInd('svc',this)">💼 Professional Services</button>
+    <button class="stab"        onclick="showInd('mfg',this)">🏭 Manufacturing</button>
+    <button class="stab"        onclick="showInd('con',this)">🏗️ Construction</button>
+  </div>
+
+  <div class="tool-layout">
+    <!-- LEFT -->
+    <div>
+
+      <!-- SERVICE PANEL -->
+      <div class="ind-panel active" id="panel-svc">
+        <div class="card">
+          <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;">Industry KPI Dashboard</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--text-primary);margin-bottom:14px;">Professional Services</div>
+          <div class="metrics-row" style="grid-template-columns:repeat(3,1fr)">
+            <div class="metric"><div class="metric-label">Gross Margin</div><div class="metric-val" id="svc-d-gm">—</div></div>
+            <div class="metric"><div class="metric-label">Utilization</div><div class="metric-val" id="svc-d-util">—</div></div>
+            <div class="metric"><div class="metric-label">Net Margin</div><div class="metric-val" id="svc-d-nm">—</div></div>
+          </div>
+          <div class="rev-row">
+            <span>Annual revenue ($M)</span>
+            <input type="number" id="svc-rev" value="5" min="0.1" max="10000" step="0.1" oninput="calcInd('svc')">
+            <span style="font-size:13px;color:var(--text-muted)">M</span>
+          </div>
+          <div class="sum-box" id="svc-dso-box">
+            <div><div class="sum-box-label">Receivables tied up (DSO)</div><div class="sum-box-val" id="svc-dso-dollar">—</div></div>
+            <div style="font-size:12px;color:var(--text-secondary);max-width:180px;line-height:1.5" id="svc-dso-sub"></div>
+          </div>
+          <hr>
+          <div class="card-title">Adjust your metrics</div>
+          <div class="sliders-section">
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Gross margin %</span><span class="slider-readout" id="svc-l-gm">40%</span></div><input type="range" min="10" max="90" step="1" value="40" id="svc-s-gm" oninput="calcInd('svc')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Billable utilization %</span><span class="slider-readout" id="svc-l-util">70%</span></div><input type="range" min="20" max="100" step="1" value="70" id="svc-s-util" oninput="calcInd('svc')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Revenue per employee ($K)</span><span class="slider-readout" id="svc-l-rpe">$150K</span></div><input type="range" min="50" max="600" step="10" value="150" id="svc-s-rpe" oninput="calcInd('svc')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Net margin %</span><span class="slider-readout" id="svc-l-nm">12%</span></div><input type="range" min="1" max="50" step="1" value="12" id="svc-s-nm" oninput="calcInd('svc')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Client retention rate %</span><span class="slider-readout" id="svc-l-ret">85%</span></div><input type="range" min="40" max="100" step="1" value="85" id="svc-s-ret" oninput="calcInd('svc')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">DSO — days to collect A/R</span><span class="slider-readout" id="svc-l-dso">35 days</span></div><input type="range" min="5" max="120" step="1" value="35" id="svc-s-dso" oninput="calcInd('svc')"><div class="cash-impact" id="svc-dso-impact"></div></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">DPO — days to pay suppliers</span><span class="slider-readout" id="svc-l-dpo">20 days</span></div><input type="range" min="5" max="90" step="1" value="20" id="svc-s-dpo" oninput="calcInd('svc')"><div class="cash-impact" id="svc-dpo-impact"></div></div>
+          </div>
+          <div class="insight" id="svc-insight">Adjust sliders to see your benchmark position.</div>
+          <hr>
+          <div class="card-title">Your metrics vs benchmarks</div>
+          <div id="svc-bars"></div>
+        </div>
+      </div>
+
+      <!-- MANUFACTURING PANEL -->
+      <div class="ind-panel" id="panel-mfg">
+        <div class="card">
+          <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;">Industry KPI Dashboard</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--text-primary);margin-bottom:14px;">Manufacturing</div>
+          <div class="metrics-row" style="grid-template-columns:repeat(3,1fr)">
+            <div class="metric"><div class="metric-label">Gross Margin</div><div class="metric-val" id="mfg-d-gm">—</div></div>
+            <div class="metric"><div class="metric-label">Inventory Turns</div><div class="metric-val" id="mfg-d-inv">—</div></div>
+            <div class="metric"><div class="metric-label">OEE %</div><div class="metric-val" id="mfg-d-oee">—</div></div>
+          </div>
+          <div class="rev-row">
+            <span>Annual revenue ($M)</span>
+            <input type="number" id="mfg-rev" value="10" min="0.1" max="10000" step="0.1" oninput="calcInd('mfg')">
+            <span style="font-size:13px;color:var(--text-muted)">M</span>
+          </div>
+          <div class="sum-box" id="mfg-ccc-box">
+            <div><div class="sum-box-label">Cash Conversion Cycle</div><div class="sum-box-val" id="mfg-ccc-days">—</div></div>
+            <div><div class="sum-box-label">Working Capital Tied Up</div><div class="sum-box-val" id="mfg-ccc-dollar">—</div></div>
+          </div>
+          <hr>
+          <div class="card-title">Adjust your metrics</div>
+          <div class="sliders-section">
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Gross margin %</span><span class="slider-readout" id="mfg-l-gm">28%</span></div><input type="range" min="5" max="70" step="1" value="28" id="mfg-s-gm" oninput="calcInd('mfg')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Inventory turns (×/year)</span><span class="slider-readout" id="mfg-l-inv">6×</span></div><input type="range" min="1" max="30" step="0.5" value="6" id="mfg-s-inv" oninput="calcInd('mfg')"><div class="cash-impact" id="mfg-dio-impact"></div></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">OEE — Overall Equipment Effectiveness %</span><span class="slider-readout" id="mfg-l-oee">72%</span></div><input type="range" min="20" max="100" step="1" value="72" id="mfg-s-oee" oninput="calcInd('mfg')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">EBITDA margin %</span><span class="slider-readout" id="mfg-l-ebitda">10%</span></div><input type="range" min="1" max="40" step="1" value="10" id="mfg-s-ebitda" oninput="calcInd('mfg')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">On-time delivery rate %</span><span class="slider-readout" id="mfg-l-otd">88%</span></div><input type="range" min="40" max="100" step="1" value="88" id="mfg-s-otd" oninput="calcInd('mfg')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Scrap / defect rate %</span><span class="slider-readout" id="mfg-l-scrap">3%</span></div><input type="range" min="0" max="20" step="0.5" value="3" id="mfg-s-scrap" oninput="calcInd('mfg')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">DSO — days to collect A/R</span><span class="slider-readout" id="mfg-l-dso">35 days</span></div><input type="range" min="5" max="90" step="1" value="35" id="mfg-s-dso" oninput="calcInd('mfg')"><div class="cash-impact" id="mfg-dso-impact"></div></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">DPO — days to pay suppliers</span><span class="slider-readout" id="mfg-l-dpo">30 days</span></div><input type="range" min="5" max="90" step="1" value="30" id="mfg-s-dpo" oninput="calcInd('mfg')"><div class="cash-impact" id="mfg-dpo-impact"></div></div>
+          </div>
+          <div class="insight" id="mfg-insight">Adjust sliders to see your benchmark position.</div>
+          <hr>
+          <div class="card-title">Your metrics vs benchmarks</div>
+          <div id="mfg-bars"></div>
+        </div>
+      </div>
+
+      <!-- CONSTRUCTION PANEL -->
+      <div class="ind-panel" id="panel-con">
+        <div class="card">
+          <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;">Industry KPI Dashboard</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--text-primary);margin-bottom:14px;">Construction</div>
+          <div class="metrics-row" style="grid-template-columns:repeat(3,1fr)">
+            <div class="metric"><div class="metric-label">Gross Margin</div><div class="metric-val" id="con-d-gm">—</div></div>
+            <div class="metric"><div class="metric-label">Net Margin</div><div class="metric-val" id="con-d-nm">—</div></div>
+            <div class="metric"><div class="metric-label">Backlog (months)</div><div class="metric-val" id="con-d-bl">—</div></div>
+          </div>
+          <div class="rev-row">
+            <span>Annual revenue ($M)</span>
+            <input type="number" id="con-rev" value="8" min="0.1" max="10000" step="0.1" oninput="calcInd('con')">
+            <span style="font-size:13px;color:var(--text-muted)">M</span>
+          </div>
+          <div class="sum-box" id="con-wc-box">
+            <div><div class="sum-box-label">A/R Float (DSO)</div><div class="sum-box-val" id="con-dso-dollar">—</div></div>
+            <div><div class="sum-box-label">Supplier Float (DPO)</div><div class="sum-box-val" style="color:var(--good)" id="con-dpo-dollar">—</div></div>
+          </div>
+          <hr>
+          <div class="card-title">Adjust your metrics</div>
+          <div class="sliders-section">
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Gross margin % (revenue minus direct job costs)</span><span class="slider-readout" id="con-l-gm">18%</span></div><input type="range" min="5" max="50" step="1" value="18" id="con-s-gm" oninput="calcInd('con')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Overhead as % of revenue</span><span class="slider-readout" id="con-l-oh">12%</span></div><input type="range" min="3" max="35" step="1" value="12" id="con-s-oh" oninput="calcInd('con')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Backlog (months of revenue under contract)</span><span class="slider-readout" id="con-l-bl">4 mo</span></div><input type="range" min="0" max="24" step="0.5" value="4" id="con-s-bl" oninput="calcInd('con')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Change order win rate %</span><span class="slider-readout" id="con-l-co">70%</span></div><input type="range" min="10" max="100" step="1" value="70" id="con-s-co" oninput="calcInd('con')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Job cost variance % (+ = over budget)</span><span class="slider-readout" id="con-l-var">5%</span></div><input type="range" min="-10" max="30" step="1" value="5" id="con-s-var" oninput="calcInd('con')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">Safety incident rate (per 100 workers/yr)</span><span class="slider-readout" id="con-l-safe">3.0</span></div><input type="range" min="0" max="15" step="0.5" value="3" id="con-s-safe" oninput="calcInd('con')"></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">DSO — days to collect from owners/GCs</span><span class="slider-readout" id="con-l-dso">45 days</span></div><input type="range" min="5" max="120" step="1" value="45" id="con-s-dso" oninput="calcInd('con')"><div class="cash-impact" id="con-dso-impact"></div></div>
+            <div class="slider-row"><div class="slider-meta"><span class="slider-label">DPO — days to pay subs &amp; suppliers</span><span class="slider-readout" id="con-l-dpo">30 days</span></div><input type="range" min="5" max="90" step="1" value="30" id="con-s-dpo" oninput="calcInd('con')"><div class="cash-impact" id="con-dpo-impact"></div></div>
+          </div>
+          <div class="insight" id="con-insight">Adjust sliders to see your benchmark position.</div>
+          <hr>
+          <div class="card-title">Your metrics vs benchmarks</div>
+          <div id="con-bars"></div>
+        </div>
+      </div>
+
+    </div><!-- end left -->
+
+    <!-- RIGHT SIDEBAR -->
+    <div>
+      <div class="sidebar-card" id="sc-info">
+        <h3 id="sc-title">Professional Services</h3>
+        <p id="sc-desc">Service firms sell time and expertise. Utilization, gross margin, and client retention are the core levers. DSO directly determines how much cash is floating in unpaid invoices.</p>
+        <div class="formula-card" id="sc-formula">
+          <div class="formula-label">Key relationships</div>
+          <div class="formula" id="sc-formula-text">Effective rate = Revenue ÷ Billable hrs<br>A/R tied up = Revenue × (DSO ÷ 365)<br>Client LTV = Avg revenue ÷ (1 − Retention)</div>
+        </div>
+        <div class="tips-card" id="sc-tips">
+          <div class="formula-label">RMA Benchmarks</div>
+          <div id="sc-tips-list"></div>
+        </div>
+      </div>
+
+      <div class="upgrade-card">
+        <h3>Unlock the Full Suite</h3>
+        <p>Financial Clarity includes 12+ tools — break-even, pricing, cash flow, ratios, CCC, equipment ROI, and more — with Shnider Group advisory discussion guides for every one.</p>
+        <ul class="upgrade-list">
+          <li>All 4 industry verticals</li>
+          <li>Break-even &amp; margin analysis</li>
+          <li>Pricing &amp; discount impact</li>
+          <li>Cash conversion cycle</li>
+          <li>Equipment ROI &amp; DSCR</li>
+          <li>Advisory discussion guides</li>
+        </ul>
+        <a class="upgrade-btn" href="https://www.theshnidergroup.com/financial-clarity" target="_blank">Subscribe — Full Access →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  &copy; 2026 The Shnider Group LLC &nbsp;|&nbsp;
+  <a href="https://www.theshnidergroup.com" target="_blank">theshnidergroup.com</a> &nbsp;|&nbsp;
+  For informational purposes only. Not financial or accounting advice.
+</div>
+
+<script>
+// ── EMAILJS CONFIG ────────────────────────────────────────────────────────
+// Sign up free at emailjs.com, then replace these three values:
+const EJS_PUBLIC_KEY  = 'YOUR_EMAILJS_PUBLIC_KEY';
+const EJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
+const EJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+// Template variables to use in EmailJS: {{first_name}} {{last_name}} {{email}} {{company}} {{time}}
+emailjs.init(EJS_PUBLIC_KEY);
+
+function submitGate() {
+  var first   = document.getElementById('g-first').value.trim();
+  var last    = document.getElementById('g-last').value.trim();
+  var email   = document.getElementById('g-email').value.trim();
+  var company = document.getElementById('g-company').value.trim();
+  var errEl   = document.getElementById('gate-error');
+  var btn     = document.getElementById('gate-btn');
+  if (!first || !last || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    errEl.style.display = 'block'; return;
+  }
+  errEl.style.display = 'none';
+  btn.disabled = true; btn.textContent = 'Sending…';
+  emailjs.send(EJS_SERVICE_ID, EJS_TEMPLATE_ID, {
+    first_name: first, last_name: last, email: email,
+    company: company || '(not provided)', time: new Date().toLocaleString()
+  }).then(function() {
+    document.getElementById('gate-overlay').style.display = 'none';
+    calcInd('svc');
+  }).catch(function() {
+    // Still let them in if EmailJS not yet configured
+    document.getElementById('gate-overlay').style.display = 'none';
+    calcInd('svc');
+  });
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && document.getElementById('gate-overlay').style.display !== 'none') submitGate();
+});
+
+// ── SIDEBAR CONTENT ───────────────────────────────────────────────────────
+var SC = {
+  svc: {
+    title: 'Professional Services KPIs',
+    desc:  'Service firms sell time and expertise. Utilization, gross margin, and client retention are the core levers. DSO directly determines how much cash is floating in unpaid invoices.',
+    formula: 'Effective rate = Revenue ÷ Billable hrs\nA/R tied up = Revenue × (DSO ÷ 365)\nClient LTV = Avg revenue ÷ (1 − Retention)',
+    tips: ['<strong>Gross margin:</strong> 35–55%; 50%+ strong','<strong>Utilization:</strong> 65–75% healthy; below 60% red flag','<strong>Revenue/employee:</strong> $100–250K typical; $300K+ excellent','<strong>Net margin:</strong> 10–20% strong','<strong>Client retention:</strong> 85%+ target; below 75% crisis','<strong>DSO:</strong> Under 45 days; over 60 = A/R risk']
+  },
+  mfg: {
+    title: 'Manufacturing KPIs',
+    desc:  'OEE and inventory turns are the fastest paths to margin improvement. Every extra day of inventory or receivables is cash your business cannot deploy elsewhere.',
+    formula: 'OEE = Availability × Performance × Quality\nDIO = 365 ÷ Inventory turns\nCCC = DIO + DSO − DPO\nWC tied up = Revenue × (CCC ÷ 365)',
+    tips: ['<strong>Gross margin:</strong> 20–35%; 35%+ strong','<strong>Inventory turns:</strong> 4–8×; 10×+ lean/excellent','<strong>DSO:</strong> 30–45 days typical; under 30 strong','<strong>OEE:</strong> 85% world-class; 60–75% typical','<strong>EBITDA margin:</strong> 8–14% healthy; 15%+ excellent','<strong>On-time delivery:</strong> 95%+ target','<strong>Scrap rate:</strong> Under 2%; 5%+ = process problem']
+  },
+  con: {
+    title: 'Construction KPIs',
+    desc:  'Profit is made or lost in the field. Estimating accuracy, overhead discipline, and change order management separate 5% from 15% net margins.',
+    formula: 'Net margin = Gross margin − Overhead %\nA/R float = Revenue × (DSO ÷ 365)\nJob variance = (Actual − Est) ÷ Est\nBacklog burn = Revenue ÷ 12/month',
+    tips: ['<strong>Gross margin:</strong> 15–25% GC; 25–40% specialty','<strong>Overhead ratio:</strong> 8–15% of revenue','<strong>DSO:</strong> 45–60 days typical; under 45 strong','<strong>Backlog:</strong> 3–6 months healthy; under 2 = risk','<strong>Job cost variance:</strong> Under 3% excellent; 10%+ = problem','<strong>Change order win rate:</strong> 80%+ target','<strong>Safety (TRIR):</strong> Under 2.0; under 1.0 excellent']
+  }
+};
+
+function showInd(p, btn) {
+  document.querySelectorAll('.stab').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('.ind-panel').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('panel-'+p).classList.add('active');
+  // Update sidebar
+  var sc = SC[p];
+  document.getElementById('sc-title').textContent = sc.title;
+  document.getElementById('sc-desc').textContent  = sc.desc;
+  document.getElementById('sc-formula-text').innerHTML = sc.formula.replace(/\n/g,'<br>');
+  document.getElementById('sc-tips-list').innerHTML = sc.tips.map(function(t){
+    return '<div class="tip-item"><div class="tip-dot"></div><span>'+t+'</span></div>';
+  }).join('');
+  calcInd(p);
+}
+
+// ── IND CONFIG ────────────────────────────────────────────────────────────
+var IND = {
+  svc: {
+    keys:   ['gm','util','rpe','nm','ret','dso','dpo'],
+    labels: ['Gross margin %','Utilization rate %','Revenue/employee ($K)','Net margin %','Client retention %','DSO (days)','DPO (days)'],
+    fmts:   [function(v){return v+'%';},function(v){return v+'%';},function(v){return '$'+v+'K';},function(v){return v+'%';},function(v){return v+'%';},function(v){return v+' days';},function(v){return v+' days';}],
+    good:   [50,75,250,15,90,30,25],
+    warn:   [35,60,100,8,75,60,10],
+    dirs:   ['up','up','up','up','up','down','up'],
+    disp:   ['gm','util','nm'],
+    insight: function(v) {
+      var issues = [];
+      if (v.util < 60) issues.push('utilization below 60% — unbilled capacity is your biggest cost');
+      if (v.gm   < 35) issues.push('gross margin under 35% — pricing or labor cost needs attention');
+      if (v.dso  > 60) issues.push('DSO over 60 days signals collection risk');
+      if (v.ret  < 75) issues.push('retention under 75% — churn is eroding your base');
+      return issues.length ? 'Areas to address: '+issues.join('; ')+'.' : 'Strong position. At '+v.util+'% utilization and '+v.gm+'% gross margin, your service engine is performing well.';
+    }
+  },
+  mfg: {
+    keys:   ['gm','inv','oee','ebitda','otd','scrap','dso','dpo'],
+    labels: ['Gross margin %','Inventory turns (x/yr)','OEE %','EBITDA margin %','On-time delivery %','Scrap / defect rate %','DSO (days)','DPO (days)'],
+    fmts:   [function(v){return v+'%';},function(v){return v+'x';},function(v){return v+'%';},function(v){return v+'%';},function(v){return v+'%';},function(v){return v+'%';},function(v){return v+' days';},function(v){return v+' days';}],
+    good:   [35,10,85,15,95,2,30,40],
+    warn:   [20,4,60,8,85,5,45,20],
+    dirs:   ['up','up','up','up','up','down','down','up'],
+    disp:   ['gm','inv','oee'],
+    insight: function(v) {
+      var issues = [];
+      if (v.oee  < 60) issues.push('OEE under 60% — significant capacity lost');
+      if (v.inv  <  4) issues.push('inventory turns below 4x — too much cash in stock');
+      if (v.scrap>  5) issues.push('scrap rate above 5% — quality process needs review');
+      if (v.otd  < 85) issues.push('on-time delivery below 85% — customer satisfaction risk');
+      if (v.dso  > 45) issues.push('DSO over 45 days — A/R building up');
+      return issues.length ? 'Areas to address: '+issues.join('; ')+'.' : 'Solid performance. OEE of '+v.oee+'% and '+v.inv+'x turns indicate efficient production.';
+    }
+  },
+  con: {
+    keys:   ['gm','oh','bl','co','var','safe','dso','dpo'],
+    labels: ['Gross margin %','Overhead ratio %','Backlog (months)','Change order win rate %','Job cost variance %','Safety incident rate','DSO (days)','DPO (days)'],
+    fmts:   [function(v){return v+'%';},function(v){return v+'%';},function(v){return v+' mo';},function(v){return v+'%';},function(v){return Math.abs(v)+'%';},function(v){return v.toFixed(1);},function(v){return v+' days';},function(v){return v+' days';}],
+    good:   [22,10,5,85,3,1.0,45,35],
+    warn:   [15,15,2,60,10,3.0,75,15],
+    dirs:   ['up','down','up','up','down','down','down','up'],
+    disp:   ['gm','bl','dso'],
+    insight: function(v) {
+      var nm = (v.gm||0)-(v.oh||0);
+      var issues = [];
+      if (nm < 3)                   issues.push('net margin under 3% — overhead consuming job margin');
+      if ((v.bl||0) < 2)            issues.push('backlog under 2 months — revenue visibility dangerously low');
+      if ((v['var']||0) > 10)       issues.push('job cost variance over 10% — estimating needs work');
+      if ((v.dso||0) > 75)          issues.push('DSO over 75 days — slow pay from owners is a cash drain');
+      return issues.length ? 'Areas to address: '+issues.join('; ')+'.' : 'Healthy metrics. GM of '+(v.gm||0)+'% minus overhead of '+(v.oh||0)+'% = '+nm.toFixed(1)+'% net margin, with '+(v.bl||0)+' months backlog.';
+    }
+  }
+};
+
+function indBar(label, val, fmt, good, warn, dir) {
+  var isGood = dir==='up' ? val>=good : val<=good;
+  var isWarn = dir==='up' ? val>=warn : val<=warn;
+  var color  = isGood ? 'var(--good)' : (isWarn ? 'var(--warn)' : 'var(--bad)');
+  var badge  = isGood ? '✓ Strong' : (isWarn ? '⚠ Watch' : '✕ Below');
+  var pct    = dir==='up' ? Math.min(100,Math.max(0,val/(good*1.4)*100)) : Math.min(100,Math.max(0,(good*1.4-val)/(good*1.4)*100));
+  return '<div style="background:#F5F7FA;border:1px solid #E0E3E8;border-radius:6px;padding:12px 14px;margin-bottom:8px;">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
+    +'<span style="font-size:12px;font-weight:600;color:var(--text-secondary)">'+label+'</span>'
+    +'<div style="display:flex;align-items:center;gap:10px;">'
+    +'<span style="font-size:17px;font-weight:700;color:'+color+'">'+fmt(val)+'</span>'
+    +'<span style="font-size:10px;font-weight:600;color:'+color+';border:1px solid '+color+';border-radius:3px;padding:2px 7px;">'+badge+'</span>'
+    +'</div></div>'
+    +'<div style="position:relative;height:8px;background:#D8DBE0;border-radius:4px;">'
+    +'<div style="position:absolute;left:0;top:0;height:100%;width:'+pct.toFixed(1)+'%;background:'+color+';border-radius:4px;transition:width 0.3s;"></div>'
+    +'<div style="position:absolute;left:71.4%;top:-3px;width:2px;height:14px;background:#1A2B45;border-radius:1px;"></div>'
+    +'</div>'
+    +'<div style="display:flex;justify-content:space-between;margin-top:5px;">'
+    +'<span style="font-size:10px;color:var(--text-muted)">Benchmark: '+fmt(good)+'</span>'
+    +'<span style="font-size:10px;color:var(--text-muted)">'+(dir==='up'?'Higher is better':'Lower is better')+'</span>'
+    +'</div></div>';
+}
+
+function calcInd(p) {
+  var cfg = IND[p];
+  var v = {};
+  cfg.keys.forEach(function(k){ var el=document.getElementById(p+'-s-'+k); if(el) v[k]=parseFloat(el.value); });
+  var revEl = document.getElementById(p+'-rev');
+  var revM  = revEl ? Math.max(0.01,parseFloat(revEl.value)||1) : 0;
+  if (p==='con') v._nm = parseFloat(((v.gm||0)-(v.oh||0)).toFixed(1));
+  cfg.keys.forEach(function(k,i){ var lbl=document.getElementById(p+'-l-'+k); if(lbl&&v[k]!==undefined) lbl.textContent=cfg.fmts[i](v[k]); });
+  cfg.disp.forEach(function(k){
+    var el=document.getElementById(p+'-d-'+k); if(!el) return;
+    var i=cfg.keys.indexOf(k); if(i<0) return;
+    var val=v[k];
+    var isGood=cfg.dirs[i]==='up'?val>=cfg.good[i]:val<=cfg.good[i];
+    var isWarn=cfg.dirs[i]==='up'?val>=cfg.warn[i]:val<=cfg.warn[i];
+    el.textContent=cfg.fmts[i](val);
+    el.className='metric-val'+(isGood?' good':isWarn?' warn':' bad');
+  });
+  var insEl=document.getElementById(p+'-insight');
+  if(insEl){ insEl.textContent=cfg.insight(v); insEl.className=insEl.textContent.indexOf('Areas')===0?'insight':'insight good-insight'; }
+  var barsEl=document.getElementById(p+'-bars');
+  if(barsEl){ var html=''; cfg.keys.forEach(function(k,i){ if(v[k]!==undefined) html+=indBar(cfg.labels[i],v[k],cfg.fmts[i],cfg.good[i],cfg.warn[i],cfg.dirs[i]); }); barsEl.innerHTML=html; }
+
+  function fmtD(m){ return m>=1?'$'+m.toFixed(1)+'M':'$'+(m*1000).toFixed(0)+'K'; }
+  function setImpact(id,days,rev,lbl){ var el=document.getElementById(id); if(!el)return; if(!rev||!days){el.textContent='';return;} el.textContent='≈ '+fmtD(Math.abs((days/365)*rev))+' '+lbl; el.style.color='var(--text-muted)'; }
+
+  if(p==='svc'&&v.dso!==undefined){
+    var dsoDollars=(v.dso/365)*revM;
+    var dsoBox=document.getElementById('svc-dso-box');
+    var dsoDolEl=document.getElementById('svc-dso-dollar');
+    var dsoSubEl=document.getElementById('svc-dso-sub');
+    if(dsoDolEl) dsoDolEl.textContent=fmtD(dsoDollars);
+    if(dsoSubEl) dsoSubEl.textContent=v.dso+' days DSO × $'+revM.toFixed(1)+'M ÷ 365. Reduce by 10 days → free '+fmtD((10/365)*revM)+'.';
+    if(dsoBox){ dsoBox.style.borderColor=v.dso>60?'#F09595':v.dso>45?'#E8B84B':'#5DCAA5'; dsoBox.style.background=v.dso>60?'var(--bad-bg)':v.dso>45?'var(--warn-bg)':'var(--good-bg)'; }
+    if(dsoDolEl) dsoDolEl.style.color=v.dso>60?'var(--bad)':v.dso>45?'var(--warn)':'var(--text-primary)';
+    setImpact('svc-dso-impact',v.dso,revM,'tied in receivables');
+    setImpact('svc-dpo-impact',v.dpo,revM,'of supplier float');
+  }
+  if(p==='mfg'&&v.inv!==undefined){
+    var dio=v.inv>0?Math.round(365/v.inv):0;
+    var ccc=dio+(v.dso||0)-(v.dpo||0);
+    var wcM=(ccc/365)*revM;
+    var cccDEl=document.getElementById('mfg-ccc-days');
+    var ccc$El=document.getElementById('mfg-ccc-dollar');
+    if(cccDEl){ cccDEl.textContent=ccc+' days'; cccDEl.style.color=ccc<45?'var(--good)':ccc<75?'var(--warn)':'var(--bad)'; }
+    if(ccc$El){ ccc$El.textContent=fmtD(Math.max(0,wcM)); ccc$El.style.color=ccc<45?'var(--good)':ccc<75?'var(--warn)':'var(--bad)'; }
+    var invLbl=document.getElementById('mfg-l-inv'); if(invLbl) invLbl.textContent=v.inv+'× ('+dio+' days)';
+    setImpact('mfg-dio-impact',dio,revM,'in inventory (DIO = '+dio+' days)');
+    setImpact('mfg-dso-impact',v.dso,revM,'in receivables (DSO)');
+    setImpact('mfg-dpo-impact',v.dpo,revM,'of supplier float (DPO)');
+  }
+  if(p==='con'&&v.dso!==undefined){
+    var conNm=(v.gm||0)-(v.oh||0);
+    var conNmEl=document.getElementById('con-d-nm');
+    if(conNmEl){ conNmEl.textContent=conNm.toFixed(1)+'%'; conNmEl.className='metric-val'+(conNm>=8?' good':conNm>=3?' warn':' bad'); }
+    var conDsoDol=(v.dso/365)*revM;
+    var conDpoDol=((v.dpo||0)/365)*revM;
+    var conDsoEl=document.getElementById('con-dso-dollar');
+    var conDpoEl=document.getElementById('con-dpo-dollar');
+    if(conDsoEl){ conDsoEl.textContent=fmtD(conDsoDol); conDsoEl.style.color=v.dso>75?'var(--bad)':v.dso>45?'var(--warn)':'var(--text-primary)'; }
+    if(conDpoEl){ conDpoEl.textContent=fmtD(conDpoDol); conDpoEl.style.color='var(--good)'; }
+    setImpact('con-dso-impact',v.dso,revM,'floating in unpaid A/R');
+    setImpact('con-dpo-impact',v.dpo,revM,'of sub/supplier float you hold');
+  }
+}
+
+// Init sidebar for default industry
+showInd('svc', null);
+document.querySelector('.stab').classList.add('active');
+</script>
+</body>
+</html>
