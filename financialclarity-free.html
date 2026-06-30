@@ -177,6 +177,7 @@ hr { border:none; border-top:1px solid var(--border); margin:18px 0; }
     </div>
     <div class="gate-field"><label>Work Email</label><input type="email" id="g-email" placeholder="jane@company.com" autocomplete="email"></div>
     <div class="gate-field"><label>Company (optional)</label><input type="text" id="g-company" placeholder="Acme Corp"></div>
+    <div class="gate-field"><label>Phone (optional)</label><input type="tel" id="g-phone" placeholder="(555) 123-4567" autocomplete="tel"></div>
     <button class="gate-btn" id="gate-btn" onclick="submitGate()">Get Free Access →</button>
     <div class="gate-error" id="gate-error">Please enter your name and a valid email address.</div>
     <p class="gate-legal">No credit card required. Your information is shared only with The Shnider Group LLC.</p>
@@ -389,9 +390,10 @@ function submitGate() {
   }
   errEl.style.display = 'none';
   btn.disabled = true; btn.textContent = 'Sending…';
+  var phone = document.getElementById('g-phone').value.trim();
   emailjs.send(EJS_SERVICE_ID, EJS_TEMPLATE_ID, {
     first_name: first, last_name: last, email: email,
-    company: company || '(not provided)', time: new Date().toLocaleString()
+    company: company || '(not provided)', phone: phone || '(not provided)', time: new Date().toLocaleString()
   }).then(function() {
     document.getElementById('gate-overlay').style.display = 'none';
     calcInd('svc');
