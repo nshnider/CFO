@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financial Clarity — Pricing | The Shnider Group LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#F5F7FA; --bg-alt:#EAECEF; --surface:#FFFFFF; --surface-2:#F0F2F5;
+  --text-primary:#1A2B45; --text-secondary:#3D5A7A; --text-muted:#6B8299;
+  --border:rgba(26,43,69,0.13); --border-strong:rgba(26,43,69,0.28);
+  --accent:#C9A84C; --accent-light:rgba(201,168,76,0.10);
+  --navy:#1A2B45; --navy-dark:#0D1E33;
+  --good:#2E8B5A; --good-bg:rgba(46,139,90,0.09);
+  --radius:6px; --radius-lg:10px;
+}
+body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text-primary); min-height:100vh; }
+
+/* HEADER */
+.hdr { background:var(--navy-dark); padding:16px 48px; display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid var(--accent); position:sticky; top:0; z-index:100; }
+.hdr-brand { display:flex; flex-direction:column; }
+.hdr-logo-text { font-family:'DM Serif Display',serif; font-size:22px; color:#fff; line-height:1.1; }
+.hdr-logo-text span { color:var(--accent); }
+.hdr-tagline { font-size:10px; color:rgba(255,255,255,0.45); letter-spacing:0.12em; text-transform:uppercase; margin-top:2px; }
+.hdr-nav { display:flex; align-items:center; gap:32px; }
+.hdr-nav a { font-size:13px; font-weight:500; color:rgba(255,255,255,0.65); text-decoration:none; transition:color .2s; }
+.hdr-nav a:hover { color:#fff; }
+.hdr-cta { background:var(--accent); color:var(--navy-dark); border:none; border-radius:var(--radius); padding:9px 20px; font-size:13px; font-weight:700; cursor:pointer; text-decoration:none; transition:background .2s; }
+.hdr-cta:hover { background:#e0bb58; }
+
+/* HERO */
+.hero { background:linear-gradient(135deg,var(--navy-dark) 0%,#1e3a5f 100%); padding:60px 48px 52px; text-align:center; }
+.hero-badge { display:inline-block; background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.4); color:var(--accent); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 16px; border-radius:20px; margin-bottom:18px; }
+.hero h1 { font-family:'DM Serif Display',serif; font-size:40px; color:#fff; line-height:1.2; margin-bottom:14px; }
+.hero h1 span { color:var(--accent); }
+.hero p { font-size:15px; color:rgba(255,255,255,0.65); max-width:520px; margin:0 auto; line-height:1.7; }
+
+/* PRICING GRID */
+.pricing-wrap { max-width:1000px; margin:0 auto; padding:52px 48px 72px; }
+.pricing-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+.price-card { background:var(--surface); border-radius:var(--radius-lg); border:1px solid var(--border); padding:36px 30px; box-shadow:0 2px 10px rgba(26,43,69,0.06); position:relative; display:flex; flex-direction:column; }
+.price-card.featured { border:2px solid var(--accent); }
+.price-badge { position:absolute; top:-13px; left:50%; transform:translateX(-50%); background:var(--accent); color:var(--navy-dark); font-size:11px; font-weight:700; padding:4px 14px; border-radius:20px; white-space:nowrap; letter-spacing:.05em; }
+.price-card h3 { font-family:'DM Serif Display',serif; font-size:24px; color:var(--navy-dark); margin-bottom:8px; }
+.price-amount { font-size:44px; font-weight:700; color:var(--navy-dark); line-height:1; margin-bottom:4px; }
+.price-amount span { font-size:16px; font-weight:400; color:var(--text-muted); }
+.price-sub { font-size:12px; color:var(--text-muted); margin-bottom:6px; }
+.price-trial { font-size:12px; color:var(--good); font-weight:600; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid var(--border); }
+.price-divider { border-bottom:1px solid var(--border); margin:16px 0; }
+.price-list { list-style:none; margin-bottom:28px; flex:1; }
+.price-list li { font-size:13px; color:var(--text-secondary); padding:8px 0; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+.price-list li:last-child { border-bottom:none; }
+.price-list li::before { content:'✓'; color:var(--accent); font-weight:700; font-size:14px; }
+.price-note { font-size:11px; color:var(--text-muted); margin-bottom:20px; font-style:italic; }
+.price-btn { display:block; width:100%; padding:13px; background:var(--navy-dark); color:#fff; border:none; border-radius:var(--radius); font-size:14px; font-weight:700; cursor:pointer; text-decoration:none; font-family:'Inter',sans-serif; text-align:center; transition:background .2s; margin-top:auto; }
+.price-btn:hover { background:#1e3a5f; }
+.price-btn.accent { background:var(--accent); color:var(--navy-dark); }
+.price-btn.accent:hover { background:#e0bb58; }
+
+/* COMPARE TABLE */
+.compare-wrap { max-width:780px; margin:0 auto; padding:0 48px 72px; }
+.compare-title { font-family:'DM Serif Display',serif; font-size:28px; color:var(--navy-dark); margin-bottom:24px; text-align:center; }
+.compare-table { width:100%; border-collapse:collapse; background:var(--surface); border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border); }
+.compare-table th { background:var(--navy-dark); color:#fff; padding:14px 18px; font-size:13px; font-weight:600; text-align:center; }
+.compare-table th:first-child { text-align:left; }
+.compare-table td { padding:13px 18px; font-size:13px; color:var(--text-secondary); border-bottom:1px solid var(--border); text-align:center; }
+.compare-table td:first-child { text-align:left; font-weight:500; color:var(--text-primary); }
+.compare-table tr:last-child td { border-bottom:none; }
+.compare-table tr:nth-child(even) td { background:var(--surface-2); }
+.check-yes { color:var(--good); font-size:16px; font-weight:700; }
+.check-no { color:var(--text-muted); font-size:16px; }
+
+/* FAQ */
+.faq-wrap { max-width:720px; margin:0 auto; padding:0 48px 72px; }
+.faq-title { font-family:'DM Serif Display',serif; font-size:28px; color:var(--navy-dark); margin-bottom:28px; text-align:center; }
+.faq-item { border-bottom:1px solid var(--border); padding:18px 0; }
+.faq-q { font-size:14px; font-weight:600; color:var(--navy-dark); margin-bottom:8px; }
+.faq-a { font-size:13px; color:var(--text-secondary); line-height:1.7; }
+
+/* CTA STRIP */
+.cta-strip { background:linear-gradient(135deg,#1e3a5f 0%,var(--navy-dark) 100%); padding:60px 48px; text-align:center; }
+.cta-strip h2 { font-family:'DM Serif Display',serif; font-size:32px; color:#fff; margin-bottom:12px; }
+.cta-strip p { font-size:15px; color:rgba(255,255,255,0.65); margin-bottom:28px; }
+.btn-primary { background:var(--accent); color:var(--navy-dark); border:none; border-radius:var(--radius); padding:13px 28px; font-size:14px; font-weight:700; cursor:pointer; text-decoration:none; font-family:'Inter',sans-serif; transition:background .2s; display:inline-block; }
+.btn-primary:hover { background:#e0bb58; }
+
+/* FOOTER */
+.footer { background:var(--navy-dark); padding:24px 48px; text-align:center; font-size:12px; color:rgba(255,255,255,0.35); border-top:1px solid rgba(255,255,255,0.08); }
+.footer a { color:var(--accent); text-decoration:none; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-brand">
+    <div class="hdr-logo-text">The <span>Shnider</span> Group <small style="font-size:14px;color:rgba(255,255,255,0.5)">LLC</small></div>
+    <div class="hdr-tagline">Fractional CFO &amp; Financial Advisory</div>
+  </div>
+  <nav class="hdr-nav">
+    <a href="https://theshnidercfogroup.com">Home</a>
+    <a href="https://theshnidercfogroup.com/#services">Services</a>
+    <a href="https://www.theshnidergroup.com/news-blog" target="_blank">Blog</a>
+    <a href="https://www.theshnidergroup.com/contact" target="_blank">Contact</a>
+  </nav>
+  <a href="https://theshnidercfogroup.com/financialclarity-free.html" class="hdr-cta">Try Free Demo</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Financial Clarity Pricing</div>
+  <h1>Simple, transparent <span>pricing</span></h1>
+  <p>Start free, upgrade when you're ready. No hidden fees, no long-term commitments — just clarity.</p>
+</section>
+
+<!-- PRICING GRID -->
+<div class="pricing-wrap">
+  <div class="pricing-grid">
+
+    <!-- STARTER -->
+    <div class="price-card">
+      <h3>Starter</h3>
+      <div class="price-amount">$149</div>
+      <div class="price-sub">One-time purchase · No subscription</div>
+      <div class="price-divider"></div>
+      <ul class="price-list">
+        <li>Full app access — current version</li>
+        <li>All current industry dashboards</li>
+        <li>Professional Services KPIs</li>
+        <li>Manufacturing KPIs</li>
+        <li>Construction KPIs</li>
+        <li>Retail/Distribution KPIs</li>
+        <li>Breakeven &amp; cash flow analysis</li>
+        <li>Ratio &amp; margin analysis</li>
+        <li>Indirect cost allocation</li>
+      </ul>
+      <a href="https://www.theshnidergroup.com/checkout?checkoutId=ca727402-32c2-4010-bca6-267adf28b308&disableContinueShopping=true" class="price-btn" target="_blank">Get Starter</a>
+    </div>
+
+    <!-- PRO -->
+    <div class="price-card featured">
+      <div class="price-badge">MOST POPULAR</div>
+      <h3>Pro</h3>
+      <div class="price-amount">$49<span>/mo</span></div>
+      <div class="price-sub">Or $470/year — save $118</div>
+      <div class="price-trial">✓ 14-day free trial — no credit card required</div>
+      <ul class="price-list">
+        <li>Everything in Starter</li>
+        <li>All future tools &amp; industries</li>
+        <li>Always the current version</li>
+        <li>Member blog &amp; updates</li>
+        <li>New dashboards as added</li>
+        <li>Priority feature access</li>
+      </ul>
+      <a href="https://www.theshnidergroup.com/checkout?checkoutId=ca727402-2290-4e72-992c-6740fdee690c" class="price-btn accent" target="_blank">Start Free Trial</a>
+    </div>
+
+    <!-- PRO ANNUAL -->
+    <div class="price-card">
+      <div class="price-badge" style="background:var(--good);color:#fff;">BEST VALUE</div>
+      <h3>Pro Annual</h3>
+      <div class="price-amount">$470<span>/yr</span></div>
+      <div class="price-sub">Save $118 vs monthly · 2 months free</div>
+      <div class="price-trial">✓ 14-day free trial — no credit card required</div>
+      <ul class="price-list">
+        <li>Everything in Pro Monthly</li>
+        <li>All future tools &amp; industries</li>
+        <li>Always the current version</li>
+        <li>Member blog &amp; updates</li>
+        <li>New dashboards as added</li>
+        <li>Priority feature access</li>
+      </ul>
+      <a href="https://www.theshnidergroup.com/checkout?checkoutId=ca727402-2290-4e72-992c-6740fdee690c" class="price-btn" target="_blank">Start Free Trial</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- COMPARE TABLE -->
+<div class="compare-wrap">
+  <div class="compare-title">Compare Plans</div>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Starter</th>
+        <th>Pro Monthly</th>
+        <th>Pro Annual</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Full app access</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+      <tr><td>All current industry dashboards</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+      <tr><td>All current financial tools</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+      <tr><td>Future tools &amp; industries</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+      <tr><td>Always current version</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+      <tr><td>Member blog &amp; updates</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+      <tr><td>14-day free trial</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+      <tr><td>Price</td><td>$149 once</td><td>$49/mo</td><td>$470/yr</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- FAQ -->
+<div class="faq-wrap">
+  <div class="faq-title">Frequently Asked Questions</div>
+  <div class="faq-item">
+    <div class="faq-q">What's the difference between Starter and Pro?</div>
+    <div class="faq-a">Starter gives you full access to the current version of Financial Clarity at the time of purchase — forever, with no recurring fees. Pro gives you everything in Starter plus all future tools, new industry dashboards, and member blog content as we add them.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Can I try it before I buy?</div>
+    <div class="faq-a">Yes — try the free demo at no cost, no credit card required. The free demo includes 3 industry KPI dashboards so you can experience the tool before purchasing. Pro plans also include a 14-day free trial.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What happens when new tools are added?</div>
+    <div class="faq-a">Pro subscribers automatically get access to every new tool and industry dashboard as it's released — no additional cost. Starter subscribers keep the version they purchased and can upgrade to Pro at any time.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Can I cancel my Pro subscription?</div>
+    <div class="faq-a">Yes — cancel anytime with no penalty. Your access continues through the end of your current billing period.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is this a replacement for a CFO or accountant?</div>
+    <div class="faq-a">Financial Clarity is an analytical tool, not a substitute for professional advice. For hands-on fractional CFO and advisory services, contact The Shnider Group LLC directly at nshnider@theshnidergroup.com or (614) 582-0108.</div>
+  </div>
+</div>
+
+<!-- CTA STRIP -->
+<section class="cta-strip">
+  <h2>Not sure yet? Try it free first.</h2>
+  <p>No credit card required. See exactly what you're getting before you spend a dollar.</p>
+  <a href="https://theshnidercfogroup.com/financialclarity-free.html" class="btn-primary">Try Financial Clarity Free</a>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  &copy; 2026 The Shnider Group LLC &nbsp;|&nbsp;
+  <a href="https://theshnidercfogroup.com">theshnidercfogroup.com</a> &nbsp;|&nbsp;
+  <a href="https://www.theshnidergroup.com" target="_blank">theshnidergroup.com</a> &nbsp;|&nbsp;
+  <a href="mailto:nshnider@theshnidergroup.com">nshnider@theshnidergroup.com</a> &nbsp;|&nbsp;
+  (614) 582-0108
+</div>
+
+</body>
+</html>
