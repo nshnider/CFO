@@ -1632,6 +1632,11 @@
     <span class="lever-btn-icon">🏗️</span>
     <span class="lever-btn-label">Construction</span>
   </button>
+  <button class="lever-btn" onclick="showPanel('bonding', this);calcBonding();" data-label="Bonding Capacity" id="btn-bonding">
+    <div class="lever-check">✓</div>
+    <span class="lever-btn-icon">🔐</span>
+    <span class="lever-btn-label">Bonding Capacity</span>
+  </button>
   <button class="lever-btn" onclick="showPanel('ind-retail', this)" data-label="Retail / Distribution" id="btn-ind-retail">
     <div class="lever-check">✓</div>
     <span class="lever-btn-icon">🛒</span>
@@ -3424,6 +3429,109 @@
     </div>
   </div>
 
+  <!-- BONDING CAPACITY CALCULATOR -->
+  <div id="panel-bonding" class="panel" style="margin-top:0;">
+    <div style="margin-bottom:1.25rem;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;">Construction · Advanced Tool</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--text-primary);">Bonding Capacity Calculator</div>
+      <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Estimate your single job and aggregate bonding limits based on surety underwriting standards.</div>
+    </div>
+    <div class="panel-grid">
+      <div><div class="card">
+        <div class="card-title">Enter your financial position</div>
+
+        <!-- Key outputs -->
+        <div class="metrics-row" style="grid-template-columns:repeat(3,1fr);margin-bottom:1.25rem;">
+          <div class="metric">
+            <div class="metric-label">Single Job Limit</div>
+            <div class="metric-val" id="bond-single">—</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Aggregate Limit</div>
+            <div class="metric-val" id="bond-aggregate">—</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Working Capital</div>
+            <div class="metric-val" id="bond-wc">—</div>
+          </div>
+        </div>
+
+        <hr class="divider">
+        <div class="sliders-section">
+
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">Current assets ($M)</span><span class="slider-readout" id="bond-l-ca">2.0M</span></div>
+            <input type="range" min="0.1" max="50" step="0.1" value="2" id="bond-s-ca" oninput="calcBonding()">
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">Current liabilities ($M)</span><span class="slider-readout" id="bond-l-cl">1.2M</span></div>
+            <input type="range" min="0.1" max="50" step="0.1" value="1.2" id="bond-s-cl" oninput="calcBonding()">
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">Net worth / equity ($M)</span><span class="slider-readout" id="bond-l-nw">1.5M</span></div>
+            <input type="range" min="0.1" max="50" step="0.1" value="1.5" id="bond-s-nw" oninput="calcBonding()">
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">Annual revenue ($M)</span><span class="slider-readout" id="bond-l-rev">8.0M</span></div>
+            <input type="range" min="0.5" max="100" step="0.5" value="8" id="bond-s-rev" oninput="calcBonding()">
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">Years in business</span><span class="slider-readout" id="bond-l-yrs">10 yrs</span></div>
+            <input type="range" min="1" max="50" step="1" value="10" id="bond-s-yrs" oninput="calcBonding()">
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-meta"><span class="slider-label">Current backlog ($M)</span><span class="slider-readout" id="bond-l-bl">3.0M</span></div>
+            <input type="range" min="0" max="100" step="0.5" value="3" id="bond-s-bl" oninput="calcBonding()">
+          </div>
+
+        </div>
+
+        <hr class="divider">
+
+        <!-- Bonding scorecard -->
+        <div style="margin-bottom:1rem;">
+          <div class="card-title" style="margin-bottom:12px;">Surety Underwriting Scorecard</div>
+          <div id="bond-scorecard" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+
+        <hr class="divider">
+        <div class="insight" id="bond-insight">Adjust sliders to estimate your bonding capacity.</div>
+
+      </div></div>
+
+      <div class="sidebar">
+        <div class="panel-desc">
+          <h2>How Bonding Capacity Works</h2>
+          <p>Surety companies use a combination of working capital, net worth, revenue, and experience to determine how much work they'll bond. This calculator applies standard surety underwriting rules to estimate your limits.</p>
+        </div>
+        <div class="formula-card">
+          <div class="formula-label">Key surety formulas</div>
+          <div class="formula" style="font-size:13px;line-height:1.9;">
+            Working capital = Current assets − Current liabilities<br>
+            Single job limit ≈ Working capital × 10<br>
+            Aggregate limit ≈ Working capital × 15–20<br>
+            Net worth multiplier ≈ Net worth × 8–12<br>
+            Working capital ratio ≥ 1.5 preferred
+          </div>
+        </div>
+        <div class="tips-card">
+          <div class="formula-label">Surety Benchmarks</div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Working capital ratio:</strong> 1.5+ preferred; under 1.0 = problem</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Single job limit:</strong> Typically 10× working capital</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Aggregate limit:</strong> Typically 15–20× working capital</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Net worth:</strong> Should support aggregate limit at 8–12×</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Backlog vs aggregate:</strong> Backlog should stay under aggregate limit</span></div>
+          <div class="tip-item"><div class="tip-dot"></div><span><strong>Years in business:</strong> 3+ years preferred; 5+ years = stronger terms</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- RETAIL -->
   <div id="panel-ind-retail" class="panel">
     <div style="margin-bottom:1.25rem;">
@@ -4579,6 +4687,92 @@ function indBar(label, val, fmt, good, warn, dir) {
     + '</div></div>';
 }
 
+function calcBonding() {
+  var ca  = parseFloat(document.getElementById('bond-s-ca').value);
+  var cl  = parseFloat(document.getElementById('bond-s-cl').value);
+  var nw  = parseFloat(document.getElementById('bond-s-nw').value);
+  var rev = parseFloat(document.getElementById('bond-s-rev').value);
+  var yrs = parseFloat(document.getElementById('bond-s-yrs').value);
+  var bl  = parseFloat(document.getElementById('bond-s-bl').value);
+
+  // Update readouts
+  document.getElementById('bond-l-ca').textContent  = ca.toFixed(1) + 'M';
+  document.getElementById('bond-l-cl').textContent  = cl.toFixed(1) + 'M';
+  document.getElementById('bond-l-nw').textContent  = nw.toFixed(1) + 'M';
+  document.getElementById('bond-l-rev').textContent = rev.toFixed(1) + 'M';
+  document.getElementById('bond-l-yrs').textContent = yrs + ' yrs';
+  document.getElementById('bond-l-bl').textContent  = bl.toFixed(1) + 'M';
+
+  // Core calculations
+  var wc    = ca - cl;
+  var wcRatio = cl > 0 ? ca / cl : 0;
+
+  // Experience multiplier
+  var expMult = yrs >= 10 ? 1.0 : yrs >= 5 ? 0.85 : yrs >= 3 ? 0.70 : 0.50;
+
+  // Single job limit: 10x working capital, capped by net worth x 10, adjusted for experience
+  var singleByWC = wc * 10 * expMult;
+  var singleByNW = nw * 10 * expMult;
+  var singleJob  = Math.min(singleByWC, singleByNW);
+  singleJob = Math.max(singleJob, 0);
+
+  // Aggregate limit: 15-20x working capital based on experience
+  var aggMult = yrs >= 10 ? 20 : yrs >= 5 ? 17 : 15;
+  var aggByWC = wc * aggMult * expMult;
+  var aggByNW = nw * 12 * expMult;
+  var aggregate = Math.min(aggByWC, aggByNW);
+  aggregate = Math.max(aggregate, 0);
+
+  // Backlog headroom
+  var headroom = aggregate - bl;
+
+  // Update metric cards
+  document.getElementById('bond-single').textContent    = wc > 0 ? '$' + singleJob.toFixed(1) + 'M' : 'N/A';
+  document.getElementById('bond-aggregate').textContent = wc > 0 ? '$' + aggregate.toFixed(1) + 'M' : 'N/A';
+  document.getElementById('bond-wc').textContent        = '$' + wc.toFixed(1) + 'M';
+
+  // Color working capital
+  var wcEl = document.getElementById('bond-wc');
+  wcEl.style.color = wc < 0 ? 'var(--danger)' : wc < 0.5 ? 'var(--warn)' : 'var(--good)';
+
+  // Scorecard
+  var scores = [
+    { label: 'Working capital ratio', val: wcRatio.toFixed(2), target: '≥ 1.5', ok: wcRatio >= 1.5, warn: wcRatio >= 1.0 },
+    { label: 'Working capital ($M)', val: '$' + wc.toFixed(1) + 'M', target: 'Positive', ok: wc >= 1.0, warn: wc > 0 },
+    { label: 'Net worth ($M)', val: '$' + nw.toFixed(1) + 'M', target: 'Supports aggregate', ok: nw * 8 >= aggregate, warn: nw * 5 >= aggregate },
+    { label: 'Years in business', val: yrs + ' yrs', target: '5+ preferred', ok: yrs >= 5, warn: yrs >= 3 },
+    { label: 'Backlog vs aggregate', val: '$' + bl.toFixed(1) + 'M vs $' + aggregate.toFixed(1) + 'M', target: 'Backlog < aggregate', ok: bl < aggregate * 0.8, warn: bl < aggregate },
+  ];
+
+  var sc = document.getElementById('bond-scorecard');
+  sc.innerHTML = scores.map(function(s) {
+    var color = s.ok ? 'var(--good)' : s.warn ? 'var(--warn)' : 'var(--danger)';
+    var icon  = s.ok ? '✓' : s.warn ? '⚠' : '✗';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-radius:var(--radius);background:var(--surface-2);border:1px solid var(--border);">'
+      + '<span style="font-size:13px;color:var(--text-secondary);">' + s.label + '</span>'
+      + '<div style="display:flex;gap:12px;align-items:center;">'
+      + '<span style="font-size:12px;color:var(--text-muted);">Target: ' + s.target + '</span>'
+      + '<span style="font-size:13px;font-weight:700;color:' + color + ';">' + s.val + ' ' + icon + '</span>'
+      + '</div></div>';
+  }).join('');
+
+  // Insight
+  var ins = document.getElementById('bond-insight');
+  if (wc <= 0) {
+    ins.textContent = 'Negative working capital — bonding will be extremely difficult. Focus on improving current ratio before pursuing bonded work.';
+    ins.style.borderLeftColor = 'var(--danger)';
+  } else if (wcRatio < 1.0) {
+    ins.textContent = 'Working capital ratio of ' + wcRatio.toFixed(2) + ' is below surety minimums. Pay down current liabilities or increase current assets to improve bonding access. Estimated aggregate: $' + aggregate.toFixed(1) + 'M.';
+    ins.style.borderLeftColor = 'var(--warn)';
+  } else if (bl > aggregate) {
+    ins.textContent = 'Current backlog of $' + bl.toFixed(1) + 'M exceeds estimated aggregate bonding limit of $' + aggregate.toFixed(1) + 'M. This may limit your ability to take on additional bonded work without improving your financial position.';
+    ins.style.borderLeftColor = 'var(--warn)';
+  } else {
+    ins.textContent = 'Estimated single job limit: $' + singleJob.toFixed(1) + 'M. Estimated aggregate: $' + aggregate.toFixed(1) + 'M. Backlog headroom remaining: $' + headroom.toFixed(1) + 'M. ' + (yrs < 5 ? 'Building more years of experience will improve your bonding terms.' : 'Strong bonding position.');
+    ins.style.borderLeftColor = 'var(--good)';
+  }
+}
+
 function calcInd(p) {
   var cfg = IND[p];
   var v = {};
@@ -4727,9 +4921,9 @@ function calcInd(p) {
 // Run all industry calcs once DOM is ready
 (function initInd() {
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() { calcInd('svc'); calcInd('mfg'); calcInd('con'); calcInd('ret'); });
+    document.addEventListener('DOMContentLoaded', function() { calcInd('svc'); calcInd('mfg'); calcInd('con'); calcInd('ret'); calcBonding(); });
   } else {
-    calcInd('svc'); calcInd('mfg'); calcInd('con'); calcInd('ret');
+    calcInd('svc'); calcInd('mfg'); calcInd('con'); calcInd('ret'); calcBonding();
   }
 })();
 
