@@ -122,6 +122,8 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text-pr
 .footer-col a:hover { color:#fff; }
 .footer-bottom { border-top:1px solid rgba(255,255,255,0.08); padding-top:20px; text-align:center; font-size:12px; color:rgba(255,255,255,0.25); max-width:1080px; margin:0 auto; }
 </style>
+<!-- Memberstack -->
+<script data-memberstack-app="app_cmr87shyj01en0str10wfbg2k" src="https://static.memberstack.com/scripts/v2/memberstack.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -136,6 +138,8 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text-pr
     <a href="https://theshnidercfogroup.com/pricing.html">Pricing</a>
     <a href="https://www.theshnidergroup.com/news-blog" target="_blank">Blog</a>
     <a href="#contact">Contact</a>
+    <a href="#" data-ms-modal="login" data-ms-content="!members">Log In</a>
+    <a href="#" data-ms-modal="profile" data-ms-content="members">My Account</a>
   </nav>
   <a href="https://theshnidercfogroup.com/financialclarity-free.html" class="hdr-cta" target="_blank">Try Free Demo</a>
 </header>
@@ -194,6 +198,12 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text-pr
   <div class="section-label">Financial Clarity</div>
   <div class="section-title">Three Ways to Access</div>
   <div class="section-desc">Whether you want full access today or a growing platform that evolves with your business, there's a plan that fits.</div>
+
+  <div id="ms-launch-banner" style="display:none;background:var(--navy-dark);color:#fff;padding:18px 24px;border-radius:10px;margin:0 auto 32px;max-width:860px;text-align:center;">
+    <span id="ms-launch-text" style="font-size:14px;color:rgba(255,255,255,0.8);">Welcome back!</span>
+    <a id="ms-launch-link" href="#" target="_blank" style="margin-left:12px;background:var(--accent);color:var(--navy-dark);padding:9px 20px;border-radius:6px;font-weight:700;text-decoration:none;font-size:14px;">Launch Financial Clarity →</a>
+  </div>
+
   <div class="pricing-grid" style="grid-template-columns:1fr 1fr 1fr;max-width:1080px;">
 
     <div class="price-card">
@@ -205,35 +215,35 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text-pr
         <li>All current industry dashboards</li>
         <li>All current tools &amp; metrics</li>
       </ul>
-      <a href="https://www.theshnidergroup.com/checkout?checkoutId=ca727402-32c2-4010-bca6-267adf28b308&amp;disableContinueShopping=true" class="price-btn" target="_blank">Get Starter</a>
+      <a href="#" class="price-btn" data-ms-modal="signup" data-ms-price:add="prc_pro-starter-plan-one-time-payment-v81f50xz3">Get Starter</a>
     </div>
 
     <div class="price-card featured">
       <div class="price-badge">MOST POPULAR</div>
       <h3>Pro Monthly</h3>
       <div class="price-amount">$49<span>/mo</span></div>
-      <div class="price-sub">Cancel anytime · 14-day free trial</div>
+      <div class="price-sub">Cancel anytime</div>
       <ul class="price-list">
         <li>Everything in Starter</li>
         <li>All future tools &amp; industries</li>
         <li>Member blog &amp; updates</li>
         <li>Always the current version</li>
       </ul>
-      <a href="https://www.theshnidergroup.com/checkout?checkoutId=ca727402-2290-4e72-992c-6740fdee690c" class="price-btn accent" target="_blank">Start Free Trial</a>
+      <a href="#" class="price-btn accent" data-ms-modal="signup" data-ms-price:add="prc_pro-full-access-monthly-payment-kl1en0xwe">Get Full Access — Monthly</a>
     </div>
 
     <div class="price-card">
       <div class="price-badge" style="background:var(--good);color:#fff;">BEST VALUE</div>
       <h3>Pro Annual</h3>
       <div class="price-amount">$470<span>/yr</span></div>
-      <div class="price-sub">Save $118 vs monthly · 14-day free trial</div>
+      <div class="price-sub">Save $118 vs monthly · Cancel anytime</div>
       <ul class="price-list">
         <li>Everything in Pro Monthly</li>
         <li>All future tools &amp; industries</li>
         <li>Member blog &amp; updates</li>
         <li>Always the current version</li>
       </ul>
-      <a href="https://www.theshnidergroup.com/checkout?checkoutId=ca727402-2290-4e72-992c-6740fdee690c" class="price-btn" target="_blank">Start Free Trial</a>
+      <a href="#" class="price-btn" data-ms-modal="signup" data-ms-price:add="prc_pro-monthly-plan-annual-payment-sq1ex0xtm">Get Full Access — Annual</a>
     </div>
 
   </div>
@@ -325,5 +335,48 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text-pr
   <div class="footer-bottom">© 2025 The Shnider Group LLC · All rights reserved · <a href="https://theshnidercfogroup.com/financialclarity-free.html" style="color:var(--accent)">Try Financial Clarity Free</a></div>
 </footer>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var STARTER_PLAN_ID = "pln_pro-starter-plan-eq1kg071z";
+  var FULL_PLAN_ID = "pln_pro-full-access-monthly-payment-w01f70rmg";
+
+  function checkLaunchAccess() {
+    if (!window.$memberstackDom) { return; }
+    window.$memberstackDom.getCurrentMember().then(function (res) {
+      var member = res && res.data;
+      if (!member) return;
+      var connections = member.planConnections || [];
+      var hasFull = connections.some(function (c) { return c.planId === FULL_PLAN_ID && c.status === "ACTIVE"; });
+      var hasStarter = connections.some(function (c) { return c.planId === STARTER_PLAN_ID && c.status === "ACTIVE"; });
+      var banner = document.getElementById('ms-launch-banner');
+      var link = document.getElementById('ms-launch-link');
+      var text = document.getElementById('ms-launch-text');
+      if (!banner || !link || !text) return;
+      if (hasFull) {
+        text.textContent = "Welcome back! You have Full Access.";
+        link.href = "https://theshnidercfogroup.com/financialclarity.html";
+        link.textContent = "Launch Financial Clarity →";
+        banner.style.display = "block";
+      } else if (hasStarter) {
+        text.textContent = "Welcome back! You have Starter access.";
+        link.href = "https://theshnidercfogroup.com/financialclarity-starter.html";
+        link.textContent = "Launch Financial Clarity (Starter) →";
+        banner.style.display = "block";
+      }
+    }).catch(function () {});
+  }
+
+  if (window.$memberstackDom) {
+    checkLaunchAccess();
+  } else {
+    var tries = 0;
+    var poll = setInterval(function () {
+      tries++;
+      if (window.$memberstackDom) { clearInterval(poll); checkLaunchAccess(); }
+      else if (tries > 100) { clearInterval(poll); }
+    }, 100);
+  }
+});
+</script>
 </body>
 </html>
